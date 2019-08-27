@@ -1,4 +1,4 @@
-# Computationally inexpensive identification of noninformative model parameters by sequential screening
+# Computationally inexpensive identification of noninformative model parameters by sequential screening: Efficient Elementary Effects (EEE)
 *by Matthias Cuntz (INRA Nancy, France) and Juliane Mai (University of Waterloo, Canada) et al.*
 
 ## Abstract
