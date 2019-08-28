@@ -117,7 +117,7 @@ from autostring      import astr                # in lib/
 # read parameter info file
 # -------------------------
 # parameter info file has following header:
-#       # para   dist       lower     upper     default   informative(1)_or_noninformative(0)
+#       # para   dist       lower     upper     default   informative(0)_or_noninformative(1)
 #       #                   mean      stddev
 nc,snc = fsread(maskfile, comment="#",cskip=1,snc=[0,1],nc=[2,3,4,5])
 snc = np.array(snc)
@@ -126,8 +126,8 @@ para_dist   = snc[:,1]
 lower_bound = nc[:,0]
 upper_bound = nc[:,1]
 initial     = nc[:,2]
-# if informative(1)    -> maskpara=True
-# if noninformative(0) -> maskpara=False
+# if informative(0)    -> maskpara=False
+# if noninformative(1) -> maskpara=True
 mask_para = np.where((nc[:,3].flatten())==1.,True,False)
 
 dims_all  = np.shape(mask_para)[0]

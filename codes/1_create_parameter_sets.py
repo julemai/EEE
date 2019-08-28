@@ -48,7 +48,7 @@ file (option -d). The sampled parameter sets and trajectories will be stored in 
 
 An example parameter setup file that will run the EEE analysis for three parameters, looks like:
      
-     # para   dist       lower     upper     default   informative(1)_or_noninformative(0)
+     # para   dist       lower     upper     default   informative(0)_or_noninformative(1)
      #                   mean      stddev
      x_1      uniform    -3.14159  3.14159   0.00000   0
      x_2      uniform    -3.14159  3.14159   0.00000   0
@@ -109,13 +109,14 @@ sys.path.append(dir_path+'/lib')
 
 import numpy       as np
 import scipy.stats as stats
+import copy
 from fsread          import fsread              # in lib/
 from autostring      import astr                # in lib/
 from morris          import morris_sampling     # in lib/
 
 
 # maskfile has following header:
-#       # para   dist       lower     upper     default   informative(1)_or_noninformative(0)
+#       # para   dist       lower     upper     default   informative(0)_or_noninformative(1)
 #       #                   mean      stddev
 nc,snc = fsread(maskfile, comment="#",cskip=1,snc=[0,1],nc=[2,3,4,5])
 snc = np.array(snc)
@@ -124,8 +125,8 @@ para_dist   = snc[:,1]
 lower_bound = nc[:,0]
 upper_bound = nc[:,1]
 initial     = nc[:,2]
-# if informative(1)    -> maskpara=True
-# if noninformative(0) -> maskpara=False
+# if informative(0)    -> maskpara=False
+# if noninformative(1) -> maskpara=True
 mask_para = np.where((nc[:,3].flatten())==1.,True,False)
 
 
@@ -147,8 +148,11 @@ fileID = astr(range(1,nfiles+1),zero=True)
 
 for kk in range(nfiles):
     # print('Sampling #'+astr(kk+1)+' of '+astr(nfiles))
+
+    lower_bound_01 = np.zeros(dims)
+    upper_bound_01 = np.ones(dims)
     
-    [OptMatrix, OptOutVec] = morris_sampling(dims, lower_bound_mask, upper_bound_mask, N=ntraj, p=6, r=ntraj, Diagnostic=0)
+    [OptMatrix, OptOutVec] = morris_sampling(dims, lower_bound_01, upper_bound_01, N=ntraj, p=6, r=ntraj, Diagnostic=0)
 
     # Write M = OptMatrix (unscaled)
     outfile_name = outfile+'_'+fileID[kk]+'_para'+astr(dims)+'_M.dat'
@@ -167,9 +171,15 @@ for kk in range(nfiles):
             raise ValueError('This distribution is not implemented. Only ["uniform","gaussian"].')
     f.write( ' \n')
 
+    tmpOptMatrix = copy.deepcopy(OptMatrix)
+    for ii in range(dims):
+        if para_dist_mask[ii].lower() == 'gaussian':
+            tmpOptMatrix[:,ii]  = 0.01 + 0.98 * tmpOptMatrix[:,ii]
+            tmpOptMatrix[:,ii] = stats.norm.ppf(tmpOptMatrix[:,ii], loc=0.0, scale=1.0)
+        
     for ii in range(ntraj*(dims+1)):
         spread_set=np.copy(initial)
-        spread_set[idx_para]=OptMatrix[ii,:]
+        spread_set[idx_para]=tmpOptMatrix[ii,:]
         f.write(' '.join(astr(spread_set,8)))
         f.write('\n')
 
@@ -178,15 +188,21 @@ for kk in range(nfiles):
 
     # morris_sampling actually don't support 'Gaussian' distribution...
     for ii in range(dims):
-        if para_dist_mask[ii] == 'gaussian':
-
-            # remove uniform scaling
-            OptMatrix[:,ii] -= lower_bound_mask[ii]
-            OptMatrix[:,ii] /= (upper_bound_mask[ii] - lower_bound_mask[ii])
+        if para_dist_mask[ii].lower() == 'gaussian':
             
             # N[0,1]; cut at 1% and 99% percentiles
             OptMatrix[:,ii]  = 0.01 + 0.98 * OptMatrix[:,ii]
             OptMatrix[:,ii] = stats.norm.ppf(OptMatrix[:,ii], loc=lower_bound_mask[ii], scale=upper_bound_mask[ii])
+
+        elif para_dist_mask[ii].lower() == 'uniform':
+
+            # uniform scaling to [a,b]
+            OptMatrix[:,ii] *= (upper_bound_mask[ii] - lower_bound_mask[ii])
+            OptMatrix[:,ii] += lower_bound_mask[ii]
+
+        else:
+
+            raise ValueError('This distribution is not implemented. Only ["uniform","gaussian"].')
 
     # Write M = OptMatrix (scaled)
     outfile_name = outfile+'_'+fileID[kk]+'_scaled_para'+astr(dims)+'_M.dat'

@@ -130,7 +130,7 @@ def mcurvature(*args, **kwargs):
 # Read parameter info file
 # -------------------------
 # parameter info file has following header:
-#       # para   dist       lower     upper     default   informative(1)_or_noninformative(0)
+#       # para   dist       lower     upper     default   informative(0)_or_noninformative(1)
 #       #                   mean      stddev
 nc,snc = fsread(maskfile, comment="#",cskip=1,snc=[0,1],nc=[2,3,4,5])
 snc = np.array(snc)
@@ -139,8 +139,8 @@ para_dist   = snc[:,1]
 lower_bound = nc[:,0]
 upper_bound = nc[:,1]
 initial     = nc[:,2]
-# if informative(1)    -> maskpara=True
-# if noninformative(0) -> maskpara=False
+# if informative(0)    -> maskpara=False
+# if noninformative(1) -> maskpara=True
 mask_para = np.where((nc[:,3].flatten())==1.,True,False)
 
 dims_all  = np.shape(mask_para)[0]
@@ -168,8 +168,9 @@ for iobj in range(nobj):
     line = f.readline()
     obj_names.append(line.split(':')[1].strip())
 f.close()
-print('   Number of objectives :: ',nobj)
-print('   Names of objectives  :: ',obj_names)
+print('Number of objectives :: ',nobj)
+print('Names of objectives  :: ',obj_names)
+print('')
 
 # -------------------------------------------------------------------------
 # Customize plots
@@ -267,15 +268,15 @@ cutoff_obj = np.ones(nobj) * -9999.
 for iobj in range(nobj):
 
     sort_idx  = np.argsort(ee_masked[:,iobj])
-    print('   ')
-    print('   OBJECTIVE #',iobj+1)
-    print('   sorted ee            :: ',ee_masked[sort_idx,iobj])
-    print('   correspond to para   :: ',idx_para[sort_idx]+1)
+    print('')
+    print('OBJECTIVE #',iobj+1)
+    print('sorted ee:              ',astr(ee_masked[sort_idx,iobj],prec=4))
+    print('correspond to para:     ',idx_para[sort_idx]+1)
     
     if (not(noplot)):
         ifig += 1
         iplot = 0
-        print('   Plot - Fig ', ifig)
+        # print('      Plot - Fig ', ifig)
         fig = plt.figure(ifig)
 
     if (not(noplot)):
@@ -297,7 +298,7 @@ for iobj in range(nobj):
                                         approx_grad=1,
                                         bounds=[(None,None),(None,None),(None,None),(None,None)],#,(0.,0.2)],
                                         iprint=0, disp=0)
-        print('   Params of logistic function: ', popti)
+        print('Params of logistic function: ', astr(popti,prec=4))
 
         # fitted line
         yy2 = logistic_offset_p(xx,popti)
@@ -326,7 +327,7 @@ for iobj in range(nobj):
         plt.setp(line6, linestyle='None', linewidth=lwidth, color=lcol1, marker='x', markeredgecolor=mcol1, markerfacecolor='None',
                  markersize=msize/2, markeredgewidth=mwidth/2, label=str2tex('$L(x_k)$',usetex=usetex))
 
-        print('   Cutoff(s): ', cutoff_obj[iobj])
+        print('Cutoff(s): ', astr(cutoff_obj[iobj],prec=4))
 
         # This selects parameters where ORIGINAL ee is above threshold
         if (multi_obj_approach == 'rectangle'):
@@ -337,7 +338,7 @@ for iobj in range(nobj):
                 # intersection of parameters
                 keepit = list(set(keepit) & set(new))
             print('')
-            print('   Parameters for next iteration: ', np.sort(keepit)+1,'   --> ',np.size(keepit),' parameters')
+            print('Parameters for next iteration: ', astr(np.sort(keepit)+1),'   --> ',np.size(keepit),' parameters')
 
         if (not(noplot)):
             # threshold
@@ -408,7 +409,7 @@ for iobj in range(nobj):
             else:
                 # intersection of parameters
                 keepit = list(set(keepit) & set(new))
-            print('   Kept parameters (start with 0): ', np.sort(keepit)+1,'   --> ',np.size(keepit),' parameters')
+            print('Kept parameters (start with 0): ', astr(np.sort(keepit)+1),'   --> ',np.size(keepit),' parameters')
 
         if (not(noplot)):
             # threshold
@@ -440,7 +441,7 @@ for iobj in range(nobj):
         elif (outtype == 'png'):
             pngfile = pngbase+"{0:04d}".format(ifig)+".png"
             fig.savefig(pngfile, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches)
-            plt.close(fig)   
+            plt.close(fig)
 
     # Write cutoff file
     splits=maskfile.split('/')
@@ -455,25 +456,30 @@ for iobj in range(nobj):
     else:
         print(cutoff_obj[iobj][0], file=f)
     f.close()
+    print("wrote:   '"+ofile+"'")
 
 if (multi_obj_approach == 'triangle'):
     keepit = list(idx_para[np.where(np.sum(ee_masked[sort_idx]/cutoff_obj,axis=1)<1)[0]])
     keepit = list(idx_para[sort_idx[np.sum(ee_masked[sort_idx]/cutoff_obj,axis=1)<1]])
     print('')
-    print('   Parameters for next iteration: ', np.sort(keepit)+1,'   --> ',np.size(keepit),' parameters')
+    if keepit != []:
+        print('Parameters for next iteration: ', astr(np.sort(keepit)+1),'   --> ',np.size(keepit),' parameters')
+    else:
+        print('Parameters for next iteration: ', np.sort(keepit)+1,'   --> ',np.size(keepit),' parameters')
 
 # Write masked parameter file
 ofile=maskfile+'.new'
-print('')
-print('   Write ascii data ', ofile)
+#print('')
+#print('Write ascii data ', ofile)
 f = open(ofile,'w')
-print('# para   dist       lower     upper     default   informative(1)_or_noninformative(0)', file=f)
+print('# para   dist       lower     upper     default   informative(0)_or_noninformative(1)', file=f)
 print('#                   mean      stddev                                                 ', file=f)
 for ii in range(mask_para.shape[0]):
     kk = '0'
     if ii in keepit: kk = '1'
     print(para_name[ii], para_dist[ii], lower_bound[ii], upper_bound[ii], initial[ii], kk, file=f)
 f.close()
+print("wrote:   '"+ofile+"'")
 
 if (not(noplot)):
     if (outtype == 'pdf'):
