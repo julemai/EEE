@@ -159,7 +159,7 @@ para_name_mask   = para_name[np.where(mask_para)]
 # Read Elementary Effects file
 # -------------------------------------------------------------------------
 ee        = fsread(eefile,cskip=2,comment='#')
-nobj      = np.shape(ee)[1]/2
+nobj      = np.int(np.shape(ee)[1]/2)
 ee        = ee[:,0:nobj]
 ee_masked = ee[mask_para]
 obj_names = []
@@ -229,7 +229,7 @@ if (not(noplot)):
         mpl.rc('figure', figsize=(8.27,11.69/5)) # a fifth of a4 portrait
         if usetex:
             mpl.rc('text', usetex=True)
-            mpl.rc('text.latex', unicode=True)
+            # mpl.rc('text.latex', unicode=True)
             mpl.rcParams['text.latex.preamble']=r'\usepackage{wasysym}'
         else:
             #mpl.rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})

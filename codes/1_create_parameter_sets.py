@@ -142,7 +142,7 @@ upper_bound_mask = upper_bound[np.where(mask_para)]
 para_dist_mask   = para_dist[np.where(mask_para)]
 para_name_mask   = para_name[np.where(mask_para)]
 
-fileID = astr(range(1,nfiles+1),zero=True)
+fileID = astr(np.arange(1,nfiles+1),zero=True)
 
 # print('dims = '+astr(dims))
 
