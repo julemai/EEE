@@ -1,0 +1,17 @@
+# para   dist       lower     upper     default   informative(1)_or_noninformative(0)
+#                   mean      stddev
+x_{1}    Gaussian   0.00000   1.00000   0.00000   1
+x_{2}    Gaussian   0.00000   1.00000   0.00000   1
+x_{3}    Gaussian   0.00000   1.00000   0.00000   1
+x_{4}    Gaussian   0.00000   1.00000   0.00000   1
+x_{5}    Gaussian   0.00000   1.00000   0.00000   1
+x_{6}    Gaussian   0.00000   1.00000   0.00000   1
+x_{7}    Gaussian   0.00000   1.00000   0.00000   1
+x_{8}    Gaussian   0.00000   1.00000   0.00000   1
+x_{9}    Gaussian   0.00000   1.00000   0.00000   1
+x_{10}   Gaussian   0.00000   1.00000   0.00000   1
+x_{11}   Gaussian   0.00000   1.00000   0.00000   1
+x_{12}   Gaussian   0.00000   1.00000   0.00000   1
+x_{13}   Gaussian   0.00000   1.00000   0.00000   1
+x_{14}   Gaussian   0.00000   1.00000   0.00000   1
+x_{15}   Gaussian   0.00000   1.00000   0.00000   1
