@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 from __future__ import division, absolute_import, print_function
 import numpy as np
-from jams.fread import fread
-from jams.sread import sread
+from fread import fread
+from sread import sread
 
 __all__ = ['fsread']
 

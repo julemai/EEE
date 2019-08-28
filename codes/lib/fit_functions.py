@@ -71,7 +71,7 @@ from __future__ import division, absolute_import, print_function
     >>> E0   = 126.
     >>> T    = 293.15
     >>> resp = 2.0
-    >>> from jams.autostring import astr
+    >>> from autostring import astr
     >>> print(astr(lloyd_fix(T, Rref, E0),3,pp=True))
     1.406
     >>> print(astr(lloyd_fix_p(T, [Rref, E0]),3,pp=True))
@@ -123,11 +123,9 @@ from __future__ import division, absolute_import, print_function
 """
 import numpy as np
 import scipy.special as sp
-import jams.const as const
 from general_functions import logistic_p, logistic_offset_p, logistic2_offset_p
 
 __all__ = ['cost_abs', 'cost_square',
-           'arrhenius', 'arrhenius_p', 'cost_arrhenius', 'cost2_arrhenius',
            'f1x', 'f1x_p', 'cost_f1x', 'cost2_f1x',
            'fexp', 'fexp_p', 'cost_fexp', 'cost2_fexp',
            'gauss', 'gauss_p', 'cost_gauss', 'cost2_gauss',
@@ -136,7 +134,6 @@ __all__ = ['cost_abs', 'cost_square',
            'line0', 'line0_p', 'cost_line0', 'cost2_line0',
            'lloyd_fix', 'lloyd_fix_p', 'cost_lloyd_fix', 'cost2_lloyd_fix',
            'lloyd_only_rref', 'lloyd_only_rref_p', 'cost_lloyd_only_rref', 'cost2_lloyd_only_rref',
-           'multiline_p',
            'sabx', 'sabx_p', 'cost_sabx', 'cost2_sabx',
            'poly', 'poly_p', 'cost_poly', 'cost2_poly',
            'cost_logistic', 'cost2_logistic',
@@ -153,31 +150,6 @@ def cost_abs(p, func, x, y):
 def cost_square(p, func, x, y):
     """ General cost function for least square optimising func(p, x) vs y"""
     return np.sum((y-func(x,p))**2)
-
-
-# -----------------------------------------------------------
-# arrhenius
-def arrhenius(T, E):
-  '''Arrhenius temperature dependence of rates
-       T in C
-       E in J
-  '''
-  return np.exp((T-(const.T25-const.T0))*E/(const.T25*const.R*(T+const.T0)))
-
-def arrhenius_p(T, p):
-  '''Arrhenius temperature dependence of rates
-       T    in C
-       p[0] in J
-  '''
-  return np.exp((T-(const.T25-const.T0))*p[0]/(const.T25*const.R*(T+const.T0)))
-
-def cost_arrhenius(p, T, rate):
-    """ Cost function for arrhenius with sum of absolute deviations """
-    return np.sum(np.abs(rate-arrhenius_p(T,p)))
-
-def cost2_arrhenius(p, T, rate):
-    """ Cost function for arrhenius with sum of squared deviations """
-    return np.sum((rate-arrhenius_p(T,p))**2)
 
 
 # -----------------------------------------------------------
@@ -462,16 +434,6 @@ def cost_lloyd_only_rref(p, et, resp):
 def cost2_lloyd_only_rref(p, et, resp):
     """ Cost function for rref  with sum of squared deviations """
     return np.sum((resp-lloyd_only_rref_p(et,p))**2)
-
-
-# -----------------------------------------------------------
-# c0*x[0] + c1*x[1] + c2*x[2] + ... + cn*x[n]
-def multiline_p(p,*args):
-  ''' Multiple linear regression line: c0*x[0] + c1*x[1] + c2*x[2] + ... + cn*x[n]
-        p      constants
-        *args  independent variables
-  '''
-  return np.polynomial.polynomial.polyval(x, list(args))
 
 
 # -----------------------------------------------------------
