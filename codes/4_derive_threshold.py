@@ -385,7 +385,7 @@ for iobj in range(nobj):
         if (not(noplot)):
             xnames     = str2tex([ '$'+iparname+'$' for iparname in para_name_mask[sort_idx] ],usetex=usetex)
             xlabel     = str2tex('Parameter Name',usetex=usetex)
-            ylabel     = str2tex('$\eta^*$',usetex=usetex)
+            ylabel     = str2tex('$\mu^*$',usetex=usetex)
             plt.setp(sub, xticks=xx, xticklabels=xnames, xlabel=xlabel, ylabel=ylabel)
 
             # Elementary Effects (informative)
@@ -415,7 +415,7 @@ for iobj in range(nobj):
             # threshold
             xmin, xmax = sub.get_xlim()
             line3 = plt.plot([xmin,xmax], [cutoff_obj[iobj],cutoff_obj[iobj]])
-            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label=str2tex('$\eta^*_{thres}$',usetex=usetex))
+            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label=str2tex('$\mu^*_{thres}$',usetex=usetex))
 
         if (not(noplot)):
             sub.text(1.02, 0.5, str2tex(obj_names[iobj],usetex=usetex),
