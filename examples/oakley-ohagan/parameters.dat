@@ -1,4 +1,4 @@
-# para   dist       lower     upper     default   informative(1)_or_noninformative(0)
+# para   dist       lower     upper     default   informative(0)_or_noninformative(1)
 #                   mean      stddev
 x_{1}    Gaussian   0.00000   1.00000   0.00000   1
 x_{2}    Gaussian   0.00000   1.00000   0.00000   1

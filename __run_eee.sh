@@ -42,23 +42,23 @@ pid=$$
 # ./run_eee.sh -p -c 1.24562587653 iter_1/
 #
 function usage () {
-    printf "${pprog} [directory]												\n"
-    printf "Runs EEE in directory.												\n"
-    printf "															\n"
-    printf "Input														\n"
-    printf "    directory        Directory containing file with masked parameters.						\n"
-    printf "															\n"
-    printf "Options														\n"
-    printf "    -h                    Prints this help screen.									\n"
-    printf "    -m maskfile           Name of file containing information about model parameters (default: parameters.dat).	\n"
-    printf "    -x model_function     Name of script that runs the model.							\n"
-    printf "                          (default: '2_run_model_ishigami-homma.py')						\n"
-    printf "    -s modeloutputkey     Which model output will be analysed. Needs to be one of the keys used for			\n"
+    printf "${pprog} [directory]                                                                                                \n"
+    printf "Runs EEE in directory.                                                                                              \n"
+    printf "                                                                                                                    \n"
+    printf "Input                                                                                                               \n"
+    printf "    directory        Directory containing file with masked parameters.                                              \n"
+    printf "                                                                                                                    \n"
+    printf "Options                                                                                                             \n"
+    printf "    -h                    Prints this help screen.                                                                  \n"
+    printf "    -m maskfile           Name of file containing information about model parameters (default: parameters.dat).     \n"
+    printf "    -x model_function     Name of script that runs the model.                                                       \n"
+    printf "                          (default: '2_run_model_ishigami-homma.py')                                                \n"
+    printf "    -s modeloutputkey     Which model output will be analysed. Needs to be one of the keys used for                 \n"
     printf "                          dictionary of model outputs in '2_run_model_<name-model>.py'.                             \n"
-    printf "                          (default: 'All').										\n"
-    printf "															\n"
-    printf "Example														\n"
-    printf "    ${pprog} -s out1 example_ishigami-homma/									\n"
+    printf "                          (default: 'All').                                                                         \n"
+    printf "                                                                                                                    \n"
+    printf "Example                                                                                                             \n"
+    printf "    ${isdir}/${pprog} -s out1 -x 2_run_model_ishigami-homma.py -m parameters.dat examples/ishigami-homma/           \n"
 }
 #
 # cleanup at end wnd when interupted
@@ -91,8 +91,8 @@ while getopts "hpm:s:x:" Option ; do
     case ${Option} in
         h) usage 1>&2; exit 0;;
         m) maskfile="${OPTARG}";;
-	s) modeloutputkey="${OPTARG}";;
-	x) model_function="${OPTARG}";;
+        s) modeloutputkey="${OPTARG}";;
+        x) model_function="${OPTARG}";;
         *) printf "Error ${pprog}: unimplemented option.\n\n";  usage 1>&2; exit 1;;
     esac
 done
@@ -160,11 +160,11 @@ while [[ "${finished}" = false ]] ; do
         traj=${traj_M1}
     else
         if ${last_iteration} ; then 
-    	# How many trajectories at end?
-    	traj=${traj_M2}
+        # How many trajectories at end?
+        traj=${traj_M2}
         else
-    	# How many trajectories in between?
-    	traj=${traj_M}
+        # How many trajectories in between?
+        traj=${traj_M}
         fi
     fi
 
@@ -174,7 +174,7 @@ while [[ "${finished}" = false ]] ; do
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.1) Create Morris trajectories                           '
     echo '# ---------------------------------------------------------------------------------'
-    python ${isdir}/1_create_parameter_sets.py -d ${maskfile} -t ${traj} -n 1 -o parameter_sets 
+    python ${isdir}/codes/1_create_parameter_sets.py -d ${maskfile} -t ${traj} -n 1 -o parameter_sets 
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.2) Run model and store all model results                  '
@@ -186,7 +186,7 @@ while [[ "${finished}" = false ]] ; do
     n_model_runs=$(( ${n_model_runs} + ${nlines} - ${skip} ))      # number of model runs
     echo 'number model runs: '${n_model_runs}
 
-    python ${isdir}/${model_function} -i ${parafile_M} -s ${skip} -o model_output.pkl
+    python ${isdir}/codes/${model_function} -i ${parafile_M} -s ${skip} -o model_output.pkl
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.3) Calculate Elementary Effects                         '
@@ -195,12 +195,12 @@ while [[ "${finished}" = false ]] ; do
     eefile='eee_results.dat'
     parafile_M=$( \ls parameter_sets_1_*_M.dat | grep -v scaled )
     parafile_v=$( \ls parameter_sets_1_*_v.dat )
-    python ${isdir}/3_derive_elementary_effects.py -i ${model_outputs} -k ${modeloutputkey} -d ${maskfile} -m ${parafile_M} -v ${parafile_v}  -o ${eefile} 
+    python ${isdir}/codes/3_derive_elementary_effects.py -i ${model_outputs} -k ${modeloutputkey} -d ${maskfile} -m ${parafile_M} -v ${parafile_v}  -o ${eefile} 
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.4) Create some plots and derive cutoff                  '
     echo '# ---------------------------------------------------------------------------------'
-    python ${isdir}/4_derive_threshold.py -e ${eefile} -m ${maskfile} -p ${outfile} -c ${cutoff} -t # -n
+    python ${isdir}/codes/4_derive_threshold.py -e ${eefile} -m ${maskfile} -p ${outfile} -c ${cutoff} -t # -n
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.5) Get the Cutoff                                       '
@@ -208,9 +208,9 @@ while [[ "${finished}" = false ]] ; do
     files=$(\ls cutoff_*.dat)
     cutoff=''
     for ff in $files ; do
-	cutoff=$(echo ${cutoff}$(tail -1 $ff):)
+        cutoff=$(echo ${cutoff}$(tail -1 $ff):)
     done
-    echo '      Cutoff(s) :: '${cutoff}
+    echo 'Cutoff(s) :: '${cutoff}
     if ${first_iteration} ; then
         first_iteration=false
     fi
@@ -237,14 +237,14 @@ while [[ "${finished}" = false ]] ; do
         mask_old=$(echo $(head -${ii} ${maskfile}     | tail -1) | cut -f 6 -d " ") 
         mask_new=$(echo $(head -${ii} ${maskfile}.new | tail -1) | cut -f 6 -d " ")
 
-	if (( ${mask_old} != ${mask_new} )) ; then 
+        if (( ${mask_old} != ${mask_new} )) ; then 
             new_parameters_detected=$((new_parameters_detected+1))
         fi
         if (( ${mask_new} > 0 )) ; then 
             n_non_informative=$((n_non_informative+1))
         fi
     done
-    echo '      In this iteration '${new_parameters_detected}' parameters where additionally detected to be informative'
+    echo 'In this iteration '${new_parameters_detected}' parameters where additionally detected to be informative.'
     n_informative=$[${n_informative}+${new_parameters_detected}]
 
     if ${last_iteration} ; then
@@ -253,7 +253,7 @@ while [[ "${finished}" = false ]] ; do
 
     # stop here since no non-informative parameter is left
     if (( ${n_non_informative} == 0 )) ; then
-	finished=true
+        finished=true
     fi
 
     if [[ "${finished}" = false ]] ; then
@@ -261,9 +261,9 @@ while [[ "${finished}" = false ]] ; do
         # Yes --> Next iteration is the last one
         # No  --> Go one with an intermediate iteration
         if [ ${new_parameters_detected} -gt 0 ] ; then
-    	    last_iteration=false
+            last_iteration=false
         else
-    	    last_iteration=true
+            last_iteration=true
         fi
         iterations_counter=$[${iterations_counter}+1]
     fi
@@ -281,6 +281,7 @@ echo "Number of informative parameters :: "${n_informative}      >> "eee_info.da
 echo "Number of model runs in total    :: "${n_model_runs}       >> "eee_info.dat"
 echo "Number of iterations             :: "${iterations_counter} >> "eee_info.dat"
 
+echo ''
 echo '# ---------------------------------------------------------------------------------'
 echo "# Info about EEE analysis"                                 
 echo '# ---------------------------------------------------------------------------------'       
