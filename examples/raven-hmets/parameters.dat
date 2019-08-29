@@ -1,6 +1,23 @@
-# para   dist       lower     upper     default   informative(0)_or_noninformative(1)
+# para   dist       lower     upper     default   informative(0)_or_noninformative(1)    # comment
 #                   mean      stddev
-x_1      uniform    -3.14159  3.14159   0.00000   1
-x_2      uniform    -3.14159  3.14159   0.00000   1
-x_3      uniform    -3.14159  3.14159   0.00000   1
-
+x_{01}  uniform    0.3       20.0         9.5019     1   # alpha1               | rvp | :LandUseParameterList | GAMMA_SHAPE
+x_{02}  uniform    0.01       5.0         0.2774     1   # beta1                | rvp | :LandUseParameterList | GAMMA_SCALE
+x_{03}  uniform    0.5       13.0         6.3942     1   # alpha2               | rvp | :LandUseParameterList | GAMMA_SHAPE2
+x_{04}  uniform    0.15       1.5         0.6884     1   # beta2                | rvp | :LandUseParameterList | GAMMA_SCALE2
+x_{05}  uniform    0.0       20.0         1.2875     1   # ddf_min              | rvp | :LandUseParameterList | MIN_MELT_FACTOR
+x_{06}  uniform    0.0       20.0         5.4134     1   # ddf_plus             | rvp | :LandUseParameterList | MAX_MELT_FACTOR = HMETS_PARA_5 + HMETS_PARA_6 = 6.7009<sup>2)</sup>
+x_{07}  uniform   -2.0        3.0         2.3641     1   # Tbm                  | rvp | :LandUseParameterList | DD_MELT_TEMP
+x_{08}  uniform    0.01       0.2         0.0973     1   # Kcum                 | rvp | :LandUseParameterList | DD_AGGRADATION
+x_{09}  uniform    0.0        0.1         0.0464     1   # fcmin                | rvp | :GlobalParameter      | SNOW_SWI_MIN
+x_{10}  uniform    0.01       0.3         0.1998     1   # fcmin_plus           | rvp | :GlobalParameter      | SNOW_SWI_MAX = HMETS_PARA_9 + HMETS_PARA_10 = 0.2462<sup>2)</sup>
+x_{11}  uniform    0.005      0.1         0.0222     1   # Ccum                 | rvp | :GlobalParameter      | SWI_REDUCT_COEFF
+x_{12}  uniform   -5.0        2.0        -1.0919     1   # Tbf                  | rvp | :LandUseParameterList | DD_REFREEZE_TEMP
+x_{13}  uniform    0.0        5.0         2.6851     1   # Kf                   | rvp | :LandUseParameterList | REFREEZE_FACTOR
+x_{14}  uniform    0.0        1.0         0.3740     1   # exp_fe               | rvp | :LandUseParameterList | REFREEZE_EXP
+x_{15}  uniform    0.0        3.0         1.0000     1   # ET_efficiency        | rvp | :SoilParameterList    | PET_CORRECTION (1st layer)
+x_{16}  uniform    0.0        1.0         0.4739     1   # coef_runoff          | rvp | :LandUseParameterList | HMETS_RUNOFF_COEFF
+x_{17}  uniform    0.00001    0.02        0.0114     1   # coef_vadose2phreatic | rvp | :SoilParameterList    | PERC_COEFF (1st layer)
+x_{18}  uniform    0.0        0.1         0.0243     1   # coef_vadose          | rvp | :SoilParameterList    | BASEFLOW_COEFF (1st layer)
+x_{19}  uniform    0.00001    0.01        0.0069     1   # coef_phreatic        | rvp | :SoilParameterList    | BASEFLOW_COEFF (2nd layer)
+x_{20}  uniform    0.0        0.5         0.3107211  1   # vadose_max_level     | rvp | :SoilProfiles         | thickness of 1st layer = 0.3107 [m] (not [mm])  --> used to derive some IC
+x_{21}  uniform    0.0        2.0         0.9161947  1   # phreatic_max_level   | rvp | :SoilProfiles         | thickness of 2nd layer = 0.9162 [m] (not [mm])  --> used to derive some IC
