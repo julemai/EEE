@@ -93,10 +93,7 @@ del parser, args
 
 def model_function(paraset):
     # function that takes parameter set and returns (scalar) model output
-    # here: Ishigami-Homa function (Ishigami and Homma, [1990])
-    #            f(x) = sin(p1) + a * sin(p2)**2 + b * p3**4 * sin(p1)
-    #       with
-    #            a=2.0 and b=1.0
+    # here: Oakley-O'Hagan function (Oakley & O'Hagan, [2004])
     out = {}
     
     paraset = np.array(paraset)
