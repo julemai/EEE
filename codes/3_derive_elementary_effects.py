@@ -146,7 +146,7 @@ para_name_mask   = para_name[np.where(mask_para)]
 model_output = pickle.load( open( modeloutputs, "rb" ) )
 
 if modeloutputkey == 'All':
-    keys = model_output.keys()
+    keys = list(model_output.keys())
 else:
     keys = [ modeloutputkey ]
     
