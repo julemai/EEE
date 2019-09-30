@@ -6,7 +6,7 @@ __all__ = ['sread']
 
 def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separator=None,
           squeeze=False, reform=False, skip_blank=False, comment=None,
-          fill=False, fill_value='', strip=None,
+          fill=False, fill_value='', strip=None, encoding='ascii', errors='ignore',
           header=False, full_header=False,
           transpose=False, strarr=False):
     """
@@ -24,7 +24,7 @@ def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separ
         ----------
         def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separator=None,
                   squeeze=False, reform=False, skip_blank=False, comment=None,
-                  fill=False, fill_value='', strip=None,
+                  fill=False, fill_value='', strip=None, encoding='ascii', errors='ignore',
                   header=False, full_header=False,
                   transpose=False, strarr=False):
 
@@ -53,6 +53,11 @@ def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separ
         fill_value   value to fill in if not enough columns in line
                      and fill=True (default: '')
         strip        Strip strings with str.strip(strip) (default: None)
+        encoding     Specifies the encoding which is to be used for the file.
+                     Any encoding that encodes to and decodes from bytes is allowed.
+                     (default: ascii)
+        errors       Errors may be given to define the error handling during encoding of the file.
+                     Possible values: strict, replace, ignore (default: ignore).
 
 
         Options
@@ -109,6 +114,20 @@ def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separ
         >>> ff.close()
 
         >>> # Read sample file in different ways
+        >>> # header
+        >>> print(sread(filename, nc=2, skip=1, header=True))
+        ['head1', 'head2']
+        >>> print(sread(filename, nc=2, skip=1, header=True, full_header=True))
+        ['head1 head2 head3 head4']
+        >>> print(sread(filename, nc=1, skip=2, header=True))
+        [['head1'], ['1.1']]
+        >>> print(sread(filename, nc=1, skip=2, header=True, squeeze=True))
+        ['head1', '1.1']
+        >>> print(sread(filename, nc=1, skip=2, header=True, squeeze=True, strarr=True))
+        ['head1' '1.1']
+        >>> print(sread(filename, nc=1, skip=2, header=True, squeeze=True, transpose=True))
+        ['head1', '1.1']
+
         >>> # data
         >>> print(sread(filename, skip=1))
         [['1.1', '1.2', '1.3', '1.4'], ['2.1', '2.2', '2.3', '2.4']]
@@ -124,20 +143,6 @@ def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separ
         [['1.1'], ['2.1']]
         >>> print(sread(filename, nc=1, skip=1, reform=True))
         ['1.1', '2.1']
-
-        >>> # header
-        >>> print(sread(filename, nc=2, skip=1, header=True))
-        ['head1', 'head2']
-        >>> print(sread(filename, nc=2, skip=1, header=True, full_header=True))
-        ['head1 head2 head3 head4']
-        >>> print(sread(filename, nc=1, skip=2, header=True))
-        [['head1'], ['1.1']]
-        >>> print(sread(filename, nc=1, skip=2, header=True, squeeze=True))
-        ['head1', '1.1']
-        >>> print(sread(filename, nc=1, skip=2, header=True, squeeze=True, strarr=True))
-        ['head1' '1.1']
-        >>> print(sread(filename, nc=1, skip=2, header=True, squeeze=True, transpose=True))
-        ['head1', '1.1']
 
         >>> # skip blank lines
         >>> ff = open(filename, 'a')
@@ -277,13 +282,14 @@ def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separ
                   MC, Nov 2017 - use range instead of np.arange for producing indexes
                   MC, Nov 2017 - cname, sname, file->infile, hstrip
                   MC, Jun 2019 - open(errors='ignore') to ignore unicode characters, for example, on read
+                  MC, Jul 2019 - errors='ignore' compatible with Python2 and Python3
+                                 -> returns header in unicode in Python2
+                  MC, Aug 2019 - use codecs module and allow user encoding and error handling
     """
     #
     # Open file
-    try:
-        f = open(infile, 'r', errors='ignore')
-    except IOError:
-        raise IOError('Cannot open file '+infile)
+    import codecs
+    f = codecs.open(infile, 'r', encoding=encoding, errors=errors)
     #
     # Read header and Skip lines
     if hskip > 0:
@@ -295,13 +301,13 @@ def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separ
         head = ['']*(skip-hskip)
         iskip = 0
         while iskip < (skip-hskip):
-            head[iskip] = f.readline().rstrip()
+            head[iskip] = str(f.readline().rstrip())
             iskip += 1
     #
     # read first line to determine nc and separator (if not set)
     split = -1
     while True:
-        s = f.readline().rstrip()
+        s = str(f.readline().rstrip())
         if len(s) == 0:
             if skip_blank:
                 continue
@@ -402,7 +408,7 @@ def sread(infile, nc=0, cname=None, skip=0, cskip=0, hskip=0, hstrip=True, separ
     #
     # Values - rest of file
     for line in f:
-        s = line.rstrip()
+        s = str(line.rstrip())
         if len(s) == 0:
             if skip_blank:
                 continue

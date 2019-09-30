@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 from __future__ import division, absolute_import, print_function
 import numpy as np
-from fread import fread
-from sread import sread
+from jams.fread import fread
+from jams.sread import sread
 
 __all__ = ['fsread']
 
 def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0, hstrip=True, separator=None,
            squeeze=False, reform=False, skip_blank=False, comment=None,
-           fill=False, fill_value=0, sfill_value='', strip=None,
+           fill=False, fill_value=0, sfill_value='', strip=None, encoding='ascii', errors='ignore',
            header=False, full_header=False,
            transpose=False, strarr=False):
     """
@@ -19,7 +19,7 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
         ----------
         def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0, hstrip=True, separator=None,
                    squeeze=False, reform=False, skip_blank=False, comment=None,
-                   fill=False, fill_value=0, sfill_value='', strip=None,
+                   fill=False, fill_value=0, sfill_value='', strip=None, encoding='ascii', errors='ignore',
                    header=False, full_header=False,
                    transpose=False, strarr=False):
 
@@ -60,6 +60,11 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
                      If None then strip quotes " and ' (default).
                      If False then no strip (30% faster).
                      Otherwise strip character given by strip.
+        encoding     Specifies the encoding which is to be used for the file.
+                     Any encoding that encodes to and decodes from bytes is allowed.
+                     (default: ascii)
+        errors       Errors may be given to define the error handling during encoding of the file.
+                     Possible values: strict, replace, ignore (default: ignore).
 
 
         Options
@@ -253,6 +258,8 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
                   MC, Nov 2017 - full_header=True returns on vector of strings
                                - cname, sname, file->infile, hstrip
                   MC, Jun 2019 - open(errors='ignore') to ignore unicode characters, for example, on read
+                                 -> returns header in unicode in Python2
+                  MC, Aug 2019 - use codecs module and allow user encoding and error handling
     """
 
     # Input error
@@ -265,7 +272,7 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
             return fread(infile, nc=nc, cname=cname, skip=skip, cskip=cskip, hskip=hskip, hstrip=hstrip,
                          separator=separator,
                          squeeze=squeeze, reform=reform, skip_blank=skip_blank, comment=comment,
-                         fill=fill, fill_value=fill_value, strip=strip,
+                         fill=fill, fill_value=fill_value, strip=strip, encoding=encoding, errors=errors,
                          header=header, full_header=full_header,
                          transpose=transpose, strarr=strarr)
     # snc!=0
@@ -274,15 +281,13 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
             return sread(infile, nc=snc, cname=sname, skip=skip, cskip=cskip, hskip=hskip, hstrip=hstrip,
                          separator=separator,
                          squeeze=squeeze, reform=reform, skip_blank=skip_blank, comment=comment,
-                         fill=fill, fill_value=sfill_value, strip=strip,
+                         fill=fill, fill_value=sfill_value, strip=strip, encoding=encoding, errors=errors,
                          header=header, full_header=full_header,
                          transpose=transpose, strarr=strarr)
 
     # Open file
-    try:
-        f = open(infile, 'r') #, errors='ignore')
-    except IOError:
-        raise IOError('Cannot open file '+infile)
+    import codecs
+    f = codecs.open(infile, 'r', encoding=encoding, errors=errors)
 
     # Read header and Skip lines
     if hskip > 0:
@@ -294,13 +299,13 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
         head = ['']*(skip-hskip)
         iskip = 0
         while iskip < (skip-hskip):
-            head[iskip] = f.readline().rstrip()
+            head[iskip] = str(f.readline().rstrip())
             iskip += 1
 
     # read first line to determine nc and separator (if not set)
     split = -1
     while True:
-        s = f.readline().rstrip()
+        s = str(f.readline().rstrip())
         if len(s) == 0:
             if skip_blank:
                 continue
@@ -471,7 +476,7 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
     #
     # Values - rest of file
     for line in f:
-        s = line.rstrip()
+        s = str(line.rstrip())
         if len(s) == 0:
             if skip_blank:
                 continue
