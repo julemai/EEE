@@ -151,8 +151,9 @@ for kk in range(nfiles):
 
     lower_bound_01 = np.zeros(dims)
     upper_bound_01 = np.ones(dims)
-    
-    [OptMatrix, OptOutVec] = morris_sampling(dims, lower_bound_01, upper_bound_01, N=ntraj, p=6, r=ntraj, Diagnostic=0)
+
+    # samples N=ntraj*10 trajectories and then picks the r=ntraj ones that are most appart from each other
+    [OptMatrix, OptOutVec] = morris_sampling(dims, lower_bound_01, upper_bound_01, N=ntraj*10, p=6, r=ntraj, Diagnostic=0)
 
     # Write M = OptMatrix (unscaled)
     outfile_name = outfile+'_'+fileID[kk]+'_para'+astr(dims)+'_M.dat'
