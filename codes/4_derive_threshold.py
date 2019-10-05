@@ -141,7 +141,8 @@ upper_bound = nc[:,1]
 initial     = nc[:,2]
 # if informative(0)    -> maskpara=False
 # if noninformative(1) -> maskpara=True
-mask_para = np.where((nc[:,3].flatten())==1.,True,False)
+mask_para   = np.where((nc[:,3].flatten())==1.,True,False)
+ignore_para = np.where((nc[:,3].flatten())==-1.,True,False)
 
 dims_all  = np.shape(mask_para)[0]
 idx_para  = np.arange(dims_all)[mask_para]  # indexes of parameters which will be changed [0,npara-1]
@@ -472,11 +473,12 @@ ofile=maskfile+'.new'
 #print('')
 #print('Write ascii data ', ofile)
 f = open(ofile,'w')
-print('# para   dist       lower     upper     default   informative(0)_or_noninformative(1)', file=f)
-print('#                   mean      stddev                                                 ', file=f)
+print('# para   dist       lower     upper     default   informative(0)_or_noninformative(1)_or_ignored(-1)', file=f)
+print('#                   mean      stddev                                                                ', file=f)
 for ii in range(mask_para.shape[0]):
     kk = '0'
     if ii in keepit: kk = '1'
+    if ignore_para[ii]: kk = '-1'
     print(para_name[ii], para_dist[ii], lower_bound[ii], upper_bound[ii], initial[ii], kk, file=f)
 f.close()
 print("wrote:   '"+ofile+"'")

@@ -1,4 +1,4 @@
-# para   dist       lower     upper     default   informative(0)_or_noninformative(1)    # comment
+# para   dist       lower     upper     default   informative(0)_or_noninformative(1)_or_ignored(-1)    # comment
 #                   mean      stddev
 x_{01}  uniform    0.3       20.0         9.5019     1   # alpha1               | rvp | :LandUseParameterList | GAMMA_SHAPE
 x_{02}  uniform    0.01       5.0         0.2774     1   # beta1                | rvp | :LandUseParameterList | GAMMA_SCALE

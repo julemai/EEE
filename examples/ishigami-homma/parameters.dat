@@ -1,4 +1,4 @@
-# para   dist       lower     upper     default   informative(0)_or_noninformative(1)
+# para   dist       lower     upper     default   informative(0)_or_noninformative(1)_or_ignored(-1)
 #                   mean      stddev
 x_1      uniform    -3.14159  3.14159   0.00000   1
 x_2      uniform    -3.14159  3.14159   0.00000   1
