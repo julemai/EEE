@@ -1,0 +1,11 @@
+# para   dist       lower     upper     default   informative(0)_or_noninformative(1)    # comment
+#                   mean      stddev
+v_{01} 	 uniform    -25.0     25.0      0.0       1                                      #           intercept in linear adjustment of niveauEauSol
+v_{02} 	 uniform    -25.0     25.0      0.0       1                                      #           intercept in linear adjustment of niveauEauNappe
+v_{03} 	 uniform    -25.0     25.0      0.0       1                                      #           intercept in linear adjustment of G (previously stockNeige)
+v_{04} 	 uniform     -5.0      5.0      0.0       1                                      #           intercept in linear adjustment of eTg (previously indexMurissementNeige)
+v_{05} 	 uniform    -10.0     10.0      0.0       0                                      # removed from code (previously indexTempNeige)
+v_{06} 	 uniform    -25.0     25.0      0.0       1                                      #           intercept in linear adjustment of precipitation (a in a + b x prec)
+v_{07} 	 uniform      0.0      2.0      1.0       0                                      # not used; slope     in linear adjustment of precipitation (b in a + b x prec)
+v_{08} 	 uniform     -5.0      5.0      0.0       1                                      #           intercept in linear adjustment of temperature   (a in a + b x prec)
+v_{09} 	 uniform      0.0      2.0      1.0       0                                      # not used; slope     in linear adjustment of temperature   (b in a + b x prec)

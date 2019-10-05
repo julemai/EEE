@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<!-- Written on 26-Nov-2018 11:38:44 using the XML Toolbox for Matlab -->
+<root>
+  <nomBassinVersant>SystemeLSJ</nomBassinVersant>
+  <carreauxEntiers>	
+	<carreauEntier>
+		<id>PD01</id>
+		<ij>2841 2842 2843 2844 2941 2942 2943</ij>
+		<latitude>51.09601695399794</latitude>
+		<longitude>-71.22386756047717</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>PD02</id>
+		<ij>2536 2537 2538 2539 2636 2637 2638 2639 2736 2737 2738 2839 2840</ij>
+		<latitude>50.67689204899216</latitude>
+		<longitude>-71.51494581329033</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>PD03</id>
+		<ij>2735 2833 2834 2835 2836 2837 2838 2933 2934 2935 2936 2937 2938 2939 2940 3034 3035</ij>
+		<latitude>50.51586633532165</latitude>
+		<longitude>-71.16564011123055</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>PD05</id>
+		<ij>2433 2434 2532 2533 2534 2535 2632 2633 2634 2635 2733 2734</ij>
+		<latitude>50.2979928133249</latitude>
+		<longitude>-71.59763828790162</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>PD15</id>
+		<ij>2730 2731 2732 2830</ij>
+		<latitude>50.05616102800558</latitude>
+		<longitude>-71.34009179492774</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>0</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>100</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>PERIB01</id>
+		<ij>2444 2445 2543 2544 2545 2546 2643 2644 2645 2646 2647 2648 2649 2650 2742 2743 2744 2745 2746 2747 2748 2749 2750 2751 2841 2842 2843 2844 2845 2846 2847 2848 2849 2850 2851 2852 2853 2942 2943 2944 2945 2946 2947 2948 2949 2950 2951 2952 2953 2954 3041 3042 3043 3044 3045 3046 3047 3048 3049 3050 3051 3052 3053 3054 3148 3149 3150 3151 3152 3153 3154 3155 3249 3250 3251 3252 3253 3254 3255 3353 3355</ij>
+		<latitude>51.60984551420005</latitude>
+		<longitude>-71.2080078005961</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>PERIB02</id>
+		<ij>2242 2243 2341 2342 2343 2344 2440 2441 2442 2443 2540 2541 2542 2640 2641 2642 2739 2740 2741 2839 2840</ij>
+		<latitude>50.99082207133508</latitude>
+		<longitude>-71.72824337761911</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>LM01</id>
+		<ij>2941 3041 3042 3142 3242 3243 3244 3245 3343 3344 3345 3443 3444</ij>
+		<latitude>51.16848166358147</latitude>
+		<longitude>-70.72704231258305</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>LM03</id>
+		<ij>2936 2937 2938 2939 3034 3035 3036 3037 3039 3040 3135 3136 3138 3139 3140 3141 3235 3236 3239 3240 3241 3336 3337 3338 3339 3340 3341 3342 3440 3441 3442</ij>
+		<latitude>50.74413438660478</latitude>
+		<longitude>-70.77818833804743</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>LM14</id>
+		<ij>3038 3137 3237 3238</ij>
+		<latitude>50.67280033655355</latitude>
+		<longitude>-70.80445572778304</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>0</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>100</pctLacExutoire>
+	</carreauEntier>	
+	<carreauEntier>
+		<id>MBLANC01</id>
+		<ij>3043 3044 3045 3046 3047 3143 3144 3145 3146 3147 3148 3149 3242 3243 3244 3245 3246 3247 3248 3249 3345 3346 3347 3348 3349 3447 3448</ij>
+		<latitude>51.4343835904832</latitude>
+		<longitude>-70.76881034842944</longitude>
+		<pctLacRiviere>0</pctLacRiviere>
+		<pctForet>100</pctForet>
+		<pctMarais>0</pctMarais>
+		<pctLacExutoire>0</pctLacExutoire>
+	</carreauEntier>	
+  </carreauxEntiers>
+  <carreauxPartiels>
+	    <carreauPartiel>
+		<id>PD</id>
+		<nom>Passes Dangereuses</nom>
+		<superficie>4026</superficie>
+		<superficieReservoir>345</superficieReservoir>
+		<idCPAval>0</idCPAval>
+		<idCPsAmont>2 0 0 0 0 0 0</idCPsAmont>
+		<idCE>1 2 3 4 5</idCE>
+		<superficieCE>383 989 1407 902 345</superficieCE>
+	</carreauPartiel>
+    <carreauPartiel>
+		<id>PERIB</id>
+		<nom>Péribonka</nom>
+		<superficie>7505</superficie>
+		<superficieReservoir>0</superficieReservoir>
+		<idCPAval>1</idCPAval>
+		<idCPsAmont>0 0 0 0 0 0 0</idCPsAmont>
+		<idCE>6 7 0 0 0</idCE>
+		<superficieCE>6194 1311 0 0 0</superficieCE>
+	</carreauPartiel>
+    <carreauPartiel>
+		<id>LM</id>
+		<nom>Lac Manouane</nom>
+		<superficie>2998</superficie>
+		<superficieReservoir>432</superficieReservoir>
+		<idCPAval>0</idCPAval>
+		<idCPsAmont>4 0 0 0 0 0 0</idCPsAmont>
+		<idCE>8 9 10 0 0</idCE>
+		<superficieCE>631 1935 432 0 0</superficieCE>
+	</carreauPartiel>
+    <carreauPartiel>
+		<id>MBLANC</id>
+		<nom>Montagnes Blanches</nom>
+		<superficie>1900</superficie>
+		<superficieReservoir>0</superficieReservoir>
+		<idCPAval>3</idCPAval>
+		<idCPsAmont>0 0 0 0 0 0 0</idCPsAmont>
+		<idCE>11 0 0 0 0</idCE>
+		<superficieCE>1900 0 0 0 0</superficieCE>
+	</carreauPartiel>
+  </carreauxPartiels>
+  <barrage/> 
+</root>

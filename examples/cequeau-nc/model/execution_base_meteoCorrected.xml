@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- Baseline run for whole period -->
+<root>
+  <dateDebut>1953-01-01</dateDebut>
+  <dateFin>2019-09-20</dateFin>
+  <fichierParamSimulation>./parametres.xml</fichierParamSimulation>
+  <fichierBassinVersant>./bassinVersant.xml</fichierBassinVersant>
+  <fichierMeteo>./data_obs/meteoCorrected.nc</fichierMeteo>
+  <!-- initial states initialization -->
+  <fichierEtats></fichierEtats>
+  <!-- results of this run -->
+  <fichierResultats>./resultats_1953-01-01_2019-09-20_meteoCorrected.nc</fichierResultats>
+</root>
