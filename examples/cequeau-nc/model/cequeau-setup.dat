@@ -1,0 +1,9 @@
+# 1     PD        Passes Dangereuses
+# 2     PERIB     Peribonka     
+# 3     LM        Lac Manouane      
+# 4     MBLANC    Montagnes Blanches
+basin_id    = 3             # starts with 1
+# start day of simulation YYYY-MM-DD
+start_day   = 2000-07-01
+# end   day of simulation YYYY-MM-DD
+end_day     = 2000-07-07

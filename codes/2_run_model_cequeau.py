@@ -161,16 +161,51 @@ def model_function(paras, run_id=None):
     tmp_folder = "/tmp/eee-analysis/"+str(run_id) # "/tmp/juletest" #  TODO a generic folder name in /tmp
     cequeau_exe_name    = os.path.abspath(dir_path+"/../"+"examples/cequeau-nc/model/cequeau")
     cequeau_obs_folder  = os.path.abspath(dir_path+"/../"+"examples/cequeau-nc/model/data_obs")
+    cequeau_run_details = os.path.abspath(dir_path+"/../"+"examples/cequeau-nc/model/cequeau-setup.dat")
 
+    # read details from cequeau-setup.dat to be fed into CEQUEAU run files
+    ff   = open(cequeau_run_details, "r")
+    lines = ff.readlines()
+    ff.close()
+
+    dict_setup = {}
+    dict_setup['tmp_folder'] = tmp_folder
+    dict_setup['basin_id']   = None
+    dict_setup['start_day']  = None
+    dict_setup['end_day']    = None
+    
+    for ii in lines:
+        if (len(ii) > 0):
+            if (not(ii.startswith('#'))):
+                ii = ii.split('#')[0].strip()
+                ii_key = ii.split('=')[0].strip()
+                ii_val = ii.split('=')[1].strip()
+                
+                if ii_key == 'basin_id':
+                    dict_setup['basin_id']   = np.int(ii_val)
+                if ii_key == 'start_day':
+                    dict_setup['start_day']  = ii_val
+                if ii_key == 'end_day':
+                    dict_setup['end_day']    = ii_val
+
+    if ( dict_setup['basin_id'] is None ) or ( dict_setup['start_day'] is None ) or ( dict_setup['end_day'] is None ):
+        print("basin_id:  ",dict_setup['basin_id'])
+        print("start_day: ",dict_setup['start_day'])
+        print("end_day:   ",dict_setup['end_day'])
+        raise ValueError('CEQUEAU setup file has missing key values!')
+
+    # cleanup before run
     if os.path.exists(tmp_folder):
         shutil.rmtree(tmp_folder)
 
+    # print setups
+    print("dict_setup: ",dict_setup)
     print("dict_paras: ",dict_paras)
 
     # all CEQUEAU setup files
-    writeString( Path(tmp_folder,"execution.xml"),     EXECUTION_XML.format(path=tmp_folder,par=dict_paras,dpar=dict_dparas) )
-    writeString( Path(tmp_folder,"parametres.xml"),    PARAMETRES_XML.format(path=tmp_folder,par=dict_paras,dpar=dict_dparas) )
-    writeString( Path(tmp_folder,"bassinVersant.xml"), BASSINVERSANT_XML.format(path=tmp_folder,par=dict_paras,dpar=dict_dparas) )
+    writeString( Path(tmp_folder,"execution.xml"),     EXECUTION_XML.format(setup=dict_setup,par=dict_paras,dpar=dict_dparas) )
+    writeString( Path(tmp_folder,"parametres.xml"),    PARAMETRES_XML.format(setup=dict_setup,par=dict_paras,dpar=dict_dparas) )
+    writeString( Path(tmp_folder,"bassinVersant.xml"), BASSINVERSANT_XML.format(setup=dict_setup,par=dict_paras,dpar=dict_dparas) )
 
     # link executable
     if not(os.path.exists(str(Path(tmp_folder,os.path.basename(cequeau_exe_name))))):
@@ -236,10 +271,14 @@ def model_function(paras, run_id=None):
     # 2	PERIB	  Peribonka	
     # 3	LM	      Lac Manouane	
     # 4	MBLANC	  Montagnes Blanches
-    basin_id    = 1    # starts with 1
-    start_day   = datetime.datetime(2000,01,01,0,0) - datetime.timedelta(days=back_days) # TODO
+    basin_id    = dict_setup['basin_id']    # starts with 1
+    start_day   = dict_setup['start_day']
+    start_day   = datetime.datetime(int(start_day[0:4]),int(start_day[5:7]),int(start_day[8:10]),0,0)
+    end_day     = dict_setup['end_day']
+    end_day     = datetime.datetime(int(end_day[0:4]),int(end_day[5:7]),int(end_day[8:10]),0,0)
+    ntime       = (end_day - start_day).days + 1 + 1   # second +1 because CEQUEAU always has last day as end_day+1
     qsim_file   = str(Path(tmp_folder,"output","resultats.nc"))
-    qsim        = get_discharge(start_day, qsim_file, 7, var="debitExutoire", ibasin=basin_id-1, group="etatsCP", ilag=0)
+    qsim        = get_discharge(start_day, qsim_file, ntime, var="debitExutoire", ibasin=basin_id-1, group="etatsCP", ilag=0)
     model['Q']  = qsim
 
     print("Q:              ",model['Q'][0:4],"...",model['Q'][-4:])
@@ -250,8 +289,8 @@ def model_function(paras, run_id=None):
     # ---------------
     # cleanup
     # ---------------
-    if os.path.exists(tmp_folder):
-        shutil.rmtree(tmp_folder)
+    #if os.path.exists(tmp_folder):
+    #    shutil.rmtree(tmp_folder)
 
     return model
 

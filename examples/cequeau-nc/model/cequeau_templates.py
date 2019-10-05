@@ -50,16 +50,16 @@ EXECUTION_XML = """<?xml version="1.0"?>
 <!-- ==========================================                                                             -->
 <root>
   <!-- simulation start date -->
-  <dateDebut>2000-01-01</dateDebut>
+  <dateDebut>{setup[start_day]}</dateDebut>
   <!-- simulation end date -->
-  <dateFin>2013-09-08</dateFin>
-  <fichierParamSimulation>{path}/parametres.xml</fichierParamSimulation>
-  <fichierBassinVersant>{path}/bassinVersant.xml</fichierBassinVersant>
-  <fichierMeteo>{path}/data_obs/meteoCorrected.nc</fichierMeteo>
+  <dateFin>{setup[end_day]}</dateFin>
+  <fichierParamSimulation>{setup[tmp_folder]}/parametres.xml</fichierParamSimulation>
+  <fichierBassinVersant>{setup[tmp_folder]}/bassinVersant.xml</fichierBassinVersant>
+  <fichierMeteo>{setup[tmp_folder]}/data_obs/meteoCorrected.nc</fichierMeteo>
   <!-- initial states initialization -->
-  <fichierEtats>{path}/data_obs/resultats_1953-01-01_2019-09-20_meteoCorrected.nc</fichierEtats>
+  <fichierEtats>{setup[tmp_folder]}/data_obs/resultats_1953-01-01_2019-09-20_meteoCorrected.nc</fichierEtats>
   <!-- results of this run -->
-  <fichierResultats>{path}/output/resultats.nc</fichierResultats>
+  <fichierResultats>{setup[tmp_folder]}/output/resultats.nc</fichierResultats>
 </root>
 
 """
