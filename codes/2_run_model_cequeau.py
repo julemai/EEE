@@ -161,7 +161,9 @@ def model_function(paras, run_id=None):
     tmp_folder = "/tmp/eee-analysis/"+str(run_id) # "/tmp/juletest" #  TODO a generic folder name in /tmp
     cequeau_exe_name    = os.path.abspath(dir_path+"/../"+"examples/cequeau-nc/model/cequeau")
     cequeau_obs_folder  = os.path.abspath(dir_path+"/../"+"examples/cequeau-nc/model/data_obs")
-    cequeau_run_details = os.path.abspath(dir_path+"/../"+"examples/cequeau-nc/model/cequeau-setup.dat")
+    cequeau_run_details = os.path.abspath(os.path.dirname(infile)+"/../model/"+"cequeau-setup.dat")
+    cequeau_run_details = os.path.abspath("../model/"+"cequeau-setup.dat")
+    print(">>> cequeau_run_details read from: ",cequeau_run_details)
 
     # read details from cequeau-setup.dat to be fed into CEQUEAU run files
     ff   = open(cequeau_run_details, "r")
