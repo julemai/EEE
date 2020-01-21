@@ -11,7 +11,15 @@ We provide a few example workflows on how to use the provided codes in order to 
 A short list of steps to setup your own model for the _Efficient Elementary Effects_. It is really only a few steps. Promised! Details can be found [here](https://github.com/julemai/EEE/wiki/Setup-your-own-model).
 
 ## Citation
+
+### Journal Publication
 M Cuntz & J Mai et al. (2015).<br>
 Computationally inexpensive identification of noninformative model parameters by sequential screening.<br>
 *Water Resources Research*, 51, 6417–6441.<br>
 https://doi.org/10.1002/2015WR016907.
+
+### Code Publication
+J Mai & M Cuntz (2020). <br>
+Computationally inexpensive identification of noninformative model parameters by sequential screening: Efficient Elementary Effects (EEE) (v1.0). <br>
+*Zenodo*<br>
+https://doi.org/10.5281/zenodo.3620895
