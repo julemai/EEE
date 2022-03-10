@@ -115,7 +115,7 @@ fi
 #
 # Check if model output key is given
 if [[ ${modeloutputkey} == 'None' ]] ; then
-    printf "Error ${pprog}: Model output key must be given. Needs to be one of the keys used for model output dictionary in 2_run_model_<name-model>.py. \n" 
+    printf "Error ${pprog}: Model output key must be given. Needs to be one of the keys used for model output dictionary in 2_run_model_<name-model>.py. \n"
     exit 1
 fi
 
@@ -159,7 +159,7 @@ while [[ "${finished}" = false ]] ; do
         # How many trajectories at beginning?
         traj=${traj_M1}
     else
-        if ${last_iteration} ; then 
+        if ${last_iteration} ; then
         # How many trajectories at end?
         traj=${traj_M2}
         else
@@ -174,7 +174,7 @@ while [[ "${finished}" = false ]] ; do
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.1) Create Morris trajectories                           '
     echo '# ---------------------------------------------------------------------------------'
-    python ${isdir}/codes/1_create_parameter_sets.py -d ${maskfile} -t ${traj} -n 1 -o parameter_sets 
+    python ${isdir}/codes/1_create_parameter_sets.py -d ${maskfile} -t ${traj} -n 1 -o parameter_sets
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.2) Run model and store all model results                  '
@@ -195,7 +195,7 @@ while [[ "${finished}" = false ]] ; do
     eefile='eee_results.dat'
     parafile_M=$( \ls parameter_sets_1_*_M.dat | grep -v scaled )
     parafile_v=$( \ls parameter_sets_1_*_v.dat )
-    python ${isdir}/codes/3_derive_elementary_effects.py -i ${model_outputs} -k ${modeloutputkey} -d ${maskfile} -m ${parafile_M} -v ${parafile_v}  -o ${eefile} 
+    python ${isdir}/codes/3_derive_elementary_effects.py -i ${model_outputs} -k ${modeloutputkey} -d ${maskfile} -m ${parafile_M} -v ${parafile_v}  -o ${eefile}
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.4) Create some plots and derive cutoff                  '
@@ -214,10 +214,10 @@ while [[ "${finished}" = false ]] ; do
     if ${first_iteration} ; then
         first_iteration=false
     fi
-    
+
     #
     # Grep flags:
-    # -F  Interpret PATTERN as a list of fixed strings, separated by newlines, any of which is to be matched.    
+    # -F  Interpret PATTERN as a list of fixed strings, separated by newlines, any of which is to be matched.
     # -x  Select only those matches that exactly match the whole line.
     # -v  Invert the sense of matching, to select non-matching lines.
     # -f  Obtain patterns from FILE, one per line.  The empty file contains zero patterns, and therefore matches nothing.
@@ -226,21 +226,21 @@ while [[ "${finished}" = false ]] ; do
     # n_informative=$[${n_informative}+${new_parameters_detected}]
 
     # Compare 2nd columns (transformation_type) in mask_para.dat and mask_para.dat.new
-    # to determine 
+    # to determine
     # (1) number of additionally detected informative parameters :: new_parameters_detected
     # (2) number of non-informative parameters left              :: n_non_informative
     new_parameters_detected=0
     lines=$(echo $(wc -l ${maskfile}.new) | cut -f 1 -d " ") # new files has no blank lines at the end
     n_non_informative=0
     for ((ii=3 ; ii<=${lines} ; ii++)) ; do
-        
-        mask_old=$(echo $(head -${ii} ${maskfile}     | tail -1) | cut -f 6 -d " ") 
+
+        mask_old=$(echo $(head -${ii} ${maskfile}     | tail -1) | cut -f 6 -d " ")
         mask_new=$(echo $(head -${ii} ${maskfile}.new | tail -1) | cut -f 6 -d " ")
 
-        if (( ${mask_old} != ${mask_new} )) ; then 
+        if (( ${mask_old} != ${mask_new} )) ; then
             new_parameters_detected=$((new_parameters_detected+1))
         fi
-        if (( ${mask_new} > 0 )) ; then 
+        if (( ${mask_new} > 0 )) ; then
             n_non_informative=$((n_non_informative+1))
         fi
     done
@@ -269,7 +269,7 @@ while [[ "${finished}" = false ]] ; do
     fi
 
     cd ..
-  
+
 done # Loop over iterations as long as ${finished} is not true
 
 cp "iter_${iterations_counter}/${maskfile}.new" ${maskfile}.final
@@ -283,13 +283,13 @@ echo "Number of iterations             :: "${iterations_counter} >> "eee_info.da
 
 echo ''
 echo '# ---------------------------------------------------------------------------------'
-echo "# Info about EEE analysis"                                 
-echo '# ---------------------------------------------------------------------------------'       
-echo "      Number of informative parameters :: "${n_informative}     
-echo "      Number of model runs in total    :: "${n_model_runs}      
+echo "# Info about EEE analysis"
+echo '# ---------------------------------------------------------------------------------'
+echo "      Number of informative parameters :: "${n_informative}
+echo "      Number of model runs in total    :: "${n_model_runs}
 echo "      Number of iterations             :: "${iterations_counter}
 echo "      EEE info file written to "${indir}"eee_info.dat"
 echo " "
 echo " "
 
-exit 0 
+exit 0

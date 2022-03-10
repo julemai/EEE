@@ -1,6 +1,10 @@
 **.pyc
 **.DS_Store
 
+examples/*/iter_*
+examples/*/eee_info.dat
+examples/*/parameters.dat.final
+
 
 
 

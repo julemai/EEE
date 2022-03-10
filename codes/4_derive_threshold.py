@@ -67,6 +67,7 @@ cutoff             = '-1'
 eefile             = 'eee_results.dat'
 maskfile           = 'parameters.dat'
 pdffile            = 'eee_results.pdf'
+usetex             = False
 noplot             = False
 multi_obj_approach = 'triangle'    # rectangle :: one of the cutoff values must be exceeded to be tagged as informative
                                    # triangle  :: combination of all cutoffs lies below the hyperplane through the single cuttoffs
@@ -88,6 +89,8 @@ parser.add_option('-m', '--maskfile', action='store', dest='maskfile', type='str
 parser.add_option('-p', '--pdffile', action='store', dest='pdffile', type='string',
                   default=pdffile, metavar='PDF output file',
                   help='Name of pdf output file (default: open X-window).')
+parser.add_option('-t', '--usetex', action='store_true', default=usetex, dest="usetex",
+                  help="Use LaTeX to render text in pdf.")
 parser.add_option('-n', '--noplot', action='store_true', default=noplot, dest="noplot",
                   help="No plot will be produced (for running on GridEngine).")
 (opts, args) = parser.parse_args()
@@ -96,6 +99,7 @@ cutoff    = opts.cutoff
 eefile    = opts.eefile    # file containing Elementary Effects
 maskfile  = opts.maskfile  # mask_para.dat
 pdffile   = opts.pdffile   # pdf file for plots
+usetex    = opts.usetex    # if tex modus should be used
 noplot    = opts.noplot    # if plot will be produced
 
 del parser, opts, args
@@ -116,7 +120,7 @@ from fit_functions     import cost_square                   # in lib/
 from fsread            import fsread                        # in lib/
 from autostring        import astr                          # in lib/
 from position          import position                      # in lib/
-
+from str2tex           import str2tex                       # in lib/
 
 # Func to minimize curvature
 def mcurvature(*args, **kwargs):
@@ -224,17 +228,21 @@ if (not(noplot)):
         # Customize: http://matplotlib.sourceforge.net/users/customizing.html
         mpl.rc('ps', papersize='a4', usedistiller='xpdf') # ps2pdf
         mpl.rc('figure', figsize=(8.27,11.69/5)) # a fifth of a4 portrait
-
-        mpl.rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
-        mpl.rc('text', usetex=True)
-
+        if usetex:
+            mpl.rc('text', usetex=True)
+            # mpl.rc('text.latex', unicode=True)
+            # mpl.rcParams['text.latex.preamble']=r'\usepackage{wasysym}'
+        else:
+            #mpl.rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+            #mpl.rc('font',**{'family':'serif','serif':['times']})
+            mpl.rcParams['font.family'] = 'serif'
+            mpl.rcParams['font.serif']  = 'Computer Modern'
         mpl.rc('font', size=textsize)
     else:
         import matplotlib.pyplot as plt
         #mpl.rc('figure', figsize=(4./5.*8.27,4./5.*11.69)) # a4 portrait
         mpl.rc('figure', figsize=(4./5.*8.27,4./5.*4.69/5)) # a fifth of a4 portrait
         mpl.rc('font', size=textsize)
-
     mpl.rc('lines', linewidth=lwidth, color='black')
     mpl.rc('axes', linewidth=alwidth, labelcolor='black')
     mpl.rc('path', simplify=False) # do not remove
@@ -300,7 +308,7 @@ for iobj in range(nobj):
             xx2 = np.arange(nxx) / np.float(nxx-1)
             yy2 = logistic_offset_p(xx2, popti)
             line2 = plt.plot(xx2, yy2)
-            plt.setp(line2, linestyle='-', linewidth=lwidth, color=lcol1, marker='None', label=r'$L$')
+            plt.setp(line2, linestyle='-', linewidth=lwidth, color=lcol1, marker='None', label=str2tex('$L$',usetex=usetex))
 
         # steepest curvature
         x_scaled = opt.brent(mcurvature, # minimizes
@@ -318,7 +326,7 @@ for iobj in range(nobj):
         y33 = np.array([curvatures for ii in range(np.shape(x33)[0])])
         line6 = plt.plot(x33, y33)
         plt.setp(line6, linestyle='None', linewidth=lwidth, color=lcol1, marker='x', markeredgecolor=mcol1, markerfacecolor='None',
-                 markersize=msize/2, markeredgewidth=mwidth/2, label=r'$L(x_k)$')
+                 markersize=msize/2, markeredgewidth=mwidth/2, label=str2tex('$L(x_k)$',usetex=usetex))
 
         print('Cutoff(s): ', astr(cutoff_obj[iobj],prec=4))
 
@@ -337,32 +345,32 @@ for iobj in range(nobj):
             # threshold
             xmin, xmax = sub.get_xlim()
             line3 = plt.plot([xmin,xmax], [cutoff1,cutoff1])
-            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label=r'$\eta^*_{thres}$')
+            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label=str2tex('$\eta^*_{thres}$',usetex=usetex))
 
         if (not(noplot)):
-            sub.text(1.02, 0.5, obj_names[iobj]),
+            sub.text(1.02, 0.5, str2tex(obj_names[iobj],usetex=usetex),
                          rotation=90, fontsize='large',
                          horizontalalignment='left', verticalalignment='center',
                          transform=sub.transAxes)
 
         if (not(noplot)):
-            xnames     = [ r'$'+iparname+'$' for iparname in para_name_mask[sort_idx] ]
-            xlabel     = 'Parameter Name'
-            ylabel     = r'$\eta^*$'
+            xnames     = str2tex([ '$'+iparname+'$' for iparname in para_name_mask[sort_idx] ],usetex=usetex)
+            xlabel     = str2tex('Parameter Name',usetex=usetex)
+            ylabel     = str2tex('$\eta^*$',usetex=usetex)
             plt.setp(sub, xticks=xx, xticklabels=xnames, xlabel=xlabel, ylabel=ylabel)
 
             # Elementary Effects (informative)
             iidx = np.where(yy >= cutoff1)
             mark1 = plt.plot(xx[iidx], yy[iidx])
             plt.setp(mark1, linestyle='None', marker='o', markeredgecolor=mcol1, markerfacecolor='None',
-                 markersize=msize, markeredgewidth=mwidth, label='retained')
+                 markersize=msize, markeredgewidth=mwidth, label=str2tex('retained',usetex=usetex))
             #linestyle='-', linewidth=lwidth, color=lcol1, marker='None')
 
             # Elementary Effects (non-informative)
             iidx = np.where(yy < cutoff1)
             mark2 = plt.plot(xx[iidx], yy[iidx])
             plt.setp(mark2, linestyle='None', marker='o', markeredgecolor=mcol2, markerfacecolor='None',
-                 markersize=msize, markeredgewidth=mwidth, label='non-influential')
+                 markersize=msize, markeredgewidth=mwidth, label=str2tex('non-influential',usetex=usetex))
             #linestyle='-', linewidth=lwidth, color=lcol1, marker='None')
 
             xlim = [0-1./(dims-1),1+1./(dims-1)]
@@ -376,23 +384,23 @@ for iobj in range(nobj):
         yy = ee_masked[sort_idx,iobj]
 
         if (not(noplot)):
-            xnames     = [ r'$'+iparname+'$' for iparname in para_name_mask[sort_idx] ]
-            xlabel     = 'Parameter Name'
-            ylabel     = r'$\mu^*$'
+            xnames     = str2tex([ '$'+iparname+'$' for iparname in para_name_mask[sort_idx] ],usetex=usetex)
+            xlabel     = str2tex('Parameter Name',usetex=usetex)
+            ylabel     = str2tex('$\mu^*$',usetex=usetex)
             plt.setp(sub, xticks=xx, xticklabels=xnames, xlabel=xlabel, ylabel=ylabel)
 
             # Elementary Effects (informative)
             iidx = np.where(yy >= cutoff_obj[iobj])
             mark1 = plt.plot(xx[iidx], yy[iidx])
             plt.setp(mark1, linestyle='None', marker='o', markeredgecolor=mcol1, markerfacecolor='None',
-                 markersize=msize, markeredgewidth=mwidth, label='retained')
+                 markersize=msize, markeredgewidth=mwidth, label=str2tex('retained',usetex=usetex))
             #linestyle='-', linewidth=lwidth, color=lcol1, marker='None')
 
             # Elementary Effects (non-informative)
             iidx = np.where(yy < cutoff_obj[iobj])
             mark2 = plt.plot(xx[iidx], yy[iidx])
             plt.setp(mark2, linestyle='None', marker='o', markeredgecolor=mcol2, markerfacecolor='None',
-                 markersize=msize, markeredgewidth=mwidth, label='non-influential')
+                 markersize=msize, markeredgewidth=mwidth, label=str2tex('non-influential',usetex=usetex))
             #linestyle='-', linewidth=lwidth, color=lcol1, marker='None')
 
         if (multi_obj_approach == 'rectangle'):
@@ -408,10 +416,10 @@ for iobj in range(nobj):
             # threshold
             xmin, xmax = sub.get_xlim()
             line3 = plt.plot([xmin,xmax], [cutoff_obj[iobj],cutoff_obj[iobj]])
-            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label=r'$\mu^*_{thres}$')
+            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label=str2tex('$\mu^*_{thres}$',usetex=usetex))
 
         if (not(noplot)):
-            sub.text(1.02, 0.5, obj_names[iobj]),
+            sub.text(1.02, 0.5, str2tex(obj_names[iobj],usetex=usetex),
                          rotation=90, fontsize='large',
                          horizontalalignment='left', verticalalignment='center',
                          transform=sub.transAxes)
