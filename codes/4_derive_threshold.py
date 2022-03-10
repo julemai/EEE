@@ -117,6 +117,7 @@ from fsread            import fsread                        # in lib/
 from autostring        import astr                          # in lib/
 from position          import position                      # in lib/
 
+
 # Func to minimize curvature
 def mcurvature(*args, **kwargs):
     return -curvature(*args, **kwargs)
@@ -224,10 +225,8 @@ if (not(noplot)):
         mpl.rc('ps', papersize='a4', usedistiller='xpdf') # ps2pdf
         mpl.rc('figure', figsize=(8.27,11.69/5)) # a fifth of a4 portrait
 
-        #mpl.rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-        #mpl.rc('font',**{'family':'serif','serif':['times']})
-        mpl.rcParams['font.family'] = 'serif'
-        mpl.rcParams['font.serif']  = 'Times'
+        mpl.rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
+        mpl.rc('text', usetex=True)
 
         mpl.rc('font', size=textsize)
     else:
@@ -235,6 +234,7 @@ if (not(noplot)):
         #mpl.rc('figure', figsize=(4./5.*8.27,4./5.*11.69)) # a4 portrait
         mpl.rc('figure', figsize=(4./5.*8.27,4./5.*4.69/5)) # a fifth of a4 portrait
         mpl.rc('font', size=textsize)
+
     mpl.rc('lines', linewidth=lwidth, color='black')
     mpl.rc('axes', linewidth=alwidth, labelcolor='black')
     mpl.rc('path', simplify=False) # do not remove
@@ -300,7 +300,7 @@ for iobj in range(nobj):
             xx2 = np.arange(nxx) / np.float(nxx-1)
             yy2 = logistic_offset_p(xx2, popti)
             line2 = plt.plot(xx2, yy2)
-            plt.setp(line2, linestyle='-', linewidth=lwidth, color=lcol1, marker='None', label='$L$')
+            plt.setp(line2, linestyle='-', linewidth=lwidth, color=lcol1, marker='None', label=r'$L$')
 
         # steepest curvature
         x_scaled = opt.brent(mcurvature, # minimizes
@@ -318,7 +318,7 @@ for iobj in range(nobj):
         y33 = np.array([curvatures for ii in range(np.shape(x33)[0])])
         line6 = plt.plot(x33, y33)
         plt.setp(line6, linestyle='None', linewidth=lwidth, color=lcol1, marker='x', markeredgecolor=mcol1, markerfacecolor='None',
-                 markersize=msize/2, markeredgewidth=mwidth/2, label='$L(x_k)$')
+                 markersize=msize/2, markeredgewidth=mwidth/2, label=r'$L(x_k)$')
 
         print('Cutoff(s): ', astr(cutoff_obj[iobj],prec=4))
 
@@ -337,7 +337,7 @@ for iobj in range(nobj):
             # threshold
             xmin, xmax = sub.get_xlim()
             line3 = plt.plot([xmin,xmax], [cutoff1,cutoff1])
-            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label='$\eta^*_{thres}$')
+            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label=r'$\eta^*_{thres}$')
 
         if (not(noplot)):
             sub.text(1.02, 0.5, obj_names[iobj]),
@@ -346,9 +346,9 @@ for iobj in range(nobj):
                          transform=sub.transAxes)
 
         if (not(noplot)):
-            xnames     = [ '$'+iparname+'$' for iparname in para_name_mask[sort_idx] ]
+            xnames     = [ r'$'+iparname+'$' for iparname in para_name_mask[sort_idx] ]
             xlabel     = 'Parameter Name'
-            ylabel     = '$\eta^*$'
+            ylabel     = r'$\eta^*$'
             plt.setp(sub, xticks=xx, xticklabels=xnames, xlabel=xlabel, ylabel=ylabel)
 
             # Elementary Effects (informative)
@@ -376,9 +376,9 @@ for iobj in range(nobj):
         yy = ee_masked[sort_idx,iobj]
 
         if (not(noplot)):
-            xnames     = [ '$'+iparname+'$' for iparname in para_name_mask[sort_idx] ]
+            xnames     = [ r'$'+iparname+'$' for iparname in para_name_mask[sort_idx] ]
             xlabel     = 'Parameter Name'
-            ylabel     = '$\mu^*$'
+            ylabel     = r'$\mu^*$'
             plt.setp(sub, xticks=xx, xticklabels=xnames, xlabel=xlabel, ylabel=ylabel)
 
             # Elementary Effects (informative)
@@ -408,7 +408,7 @@ for iobj in range(nobj):
             # threshold
             xmin, xmax = sub.get_xlim()
             line3 = plt.plot([xmin,xmax], [cutoff_obj[iobj],cutoff_obj[iobj]])
-            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label='$\mu^*_{thres}$')
+            plt.setp(line3, linestyle='--', linewidth=lwidth, color=lcol2, marker='None', label=r'$\mu^*_{thres}$')
 
         if (not(noplot)):
             sub.text(1.02, 0.5, obj_names[iobj]),
