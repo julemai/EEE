@@ -57,7 +57,7 @@ Written,  JM, Mar 2019
 # add subolder scripts/lib to search path
 # -----------------------
 import sys
-import os 
+import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.abspath(dir_path+'/lib'))
 sys.path.append(os.path.abspath(dir_path+'/../examples/raven-hmets/model'))
@@ -119,12 +119,12 @@ def model_function(paras, run_id=None):
     # derive some parameters
     # ---------------
     dict_dparas = {}
-    
+
     dict_dparas['sum_x05_x06']  = paras[4]+paras[5]           # MAX_MELT_FACTOR > MIN_MELT_FACTOR
     dict_dparas['sum_x09_x10']  = paras[8]+paras[9]           # SNOW_SWI_MAX > SNOW_SWI_MIN
     dict_dparas['half_x20']     = paras[19] * 0.5 * 1000      # half the value but in [mm] not [m]
     dict_dparas['half_x21']     = paras[20] * 0.5 * 1000      # half the value but in [mm] not [m]
-    
+
     # ---------------
     # paste all paras into template files
     # ---------------
@@ -141,9 +141,9 @@ def model_function(paras, run_id=None):
     if len(paras) > 9 and len(paras) < 100:
         keys_paras = ["x{:02d}".format(ii)   for ii in range(1,len(paras)+1) ]
     elif len(paras) > 99 and len(paras) < 1000:
-        keys_paras = ["x{:03d}"   for ii in range(1,len(paras)+1) ]
+        keys_paras = ["x{:03d}".format(ii)   for ii in range(1,len(paras)+1) ]
     elif len(paras) <= 9:
-        keys_paras = ["x"+str(ii) for ii in range(1,len(paras)+1) ]
+        keys_paras = ["x{:01d}".format(ii)   for ii in range(1,len(paras)+1) ]
     else:
         raise ValueError("More than 999 parameters are not implemented yet!")
     vals_paras = paras
@@ -169,7 +169,7 @@ def model_function(paras, run_id=None):
     writeString( Path(tmp_folder,"raven_hmets.rvp"), RVP.format(par=dict_paras,dpar=dict_dparas) )
     writeString( Path(tmp_folder,"raven_hmets.rvh"), RVH.format(par=dict_paras,dpar=dict_dparas) )
     writeString( Path(tmp_folder,"raven_hmets.rvt"), RVT.format(par=dict_paras,dpar=dict_dparas) )
-    writeString( Path(tmp_folder,"raven_hmets.rvc"), RVC.format(par=dict_paras,dpar=dict_dparas) )        
+    writeString( Path(tmp_folder,"raven_hmets.rvc"), RVC.format(par=dict_paras,dpar=dict_dparas) )
 
     # link executable
     if not(os.path.exists(str(Path(tmp_folder,os.path.basename(raven_exe_name))))):
@@ -184,10 +184,10 @@ def model_function(paras, run_id=None):
     # create ouput folder
     out_folder = str(Path(tmp_folder,"output"))
     os.makedirs(out_folder)
-    
+
     # ---------------
     # run the model with these input rv* files
-    # ---------------        
+    # ---------------
     cmd = [str(Path(tmp_folder,os.path.basename(raven_exe_name))),str(Path(tmp_folder,"raven_hmets")),"-o",str(Path(tmp_folder,"output"))+'/']
     print("run cmd: ",' '.join(cmd))
 
@@ -198,7 +198,7 @@ def model_function(paras, run_id=None):
     for line in process.stdout:
         print(">>> ",line.rstrip()) # rstrip removes trailing \n
 
-    if not(os.path.exists(str(Path(tmp_folder,"output","Diagnostics.csv")))):            
+    if not(os.path.exists(str(Path(tmp_folder,"output","Diagnostics.csv")))):
         print("")
         print("ERROR: No Diagnostics.csv produced")
         print("")
@@ -225,7 +225,7 @@ def model_function(paras, run_id=None):
     print("NSE:            ",nse)
     model['nse'] = nse
     print("")
-    
+
     # ---------------
     # extract model output: Hydrographs: simulated Q
     # ---------------
@@ -277,7 +277,7 @@ model_output = {}
 # this loop could be easily parallized and modified such that it
 # actually submits multiple tasks to a HPC
 for iparaset,paraset in enumerate(parasets):
-    
+
     paraset = list(map(float,paraset.strip().split()))
     model = model_function(paraset,run_id='run_set_'+str(iparaset))
 
@@ -287,11 +287,10 @@ for iparaset,paraset in enumerate(parasets):
 
 
     for ikey in model.keys():
-            
+
         model_output[ikey].append(model[ikey])
-            
+
 
 pickle.dump( model_output, open( outfile, "wb" ) )
 
 print("wrote:   '"+outfile+"'")
-        
