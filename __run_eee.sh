@@ -174,7 +174,7 @@ while [[ "${finished}" = false ]] ; do
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.1) Create Morris trajectories                           '
     echo '# ---------------------------------------------------------------------------------'
-    python3 "${isdir}"/codes/1_create_parameter_sets.py -d "${maskfile}" -t ${traj} -n 1 -o parameter_sets
+    python "${isdir}"/codes/1_create_parameter_sets.py -d "${maskfile}" -t ${traj} -n 1 -o parameter_sets
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.2) Run model and store all model results                  '
@@ -186,7 +186,7 @@ while [[ "${finished}" = false ]] ; do
     n_model_runs=$(( ${n_model_runs} + ${nlines} - ${skip} ))      # number of model runs
     echo 'number model runs: '${n_model_runs}
 
-    python3 "${isdir}"/codes/${model_function} -i "${parafile_M}" -s ${skip} -o model_output.pkl
+    python "${isdir}"/codes/${model_function} -i "${parafile_M}" -s ${skip} -o model_output.pkl
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.3) Calculate Elementary Effects                         '
@@ -195,12 +195,12 @@ while [[ "${finished}" = false ]] ; do
     eefile='eee_results.dat'
     parafile_M=$( \ls parameter_sets_1_*_M.dat | grep -v scaled )
     parafile_v=$( \ls parameter_sets_1_*_v.dat )
-    python3 "${isdir}"/codes/3_derive_elementary_effects.py -i ${model_outputs} -k ${modeloutputkey} -d "${maskfile}" -m "${parafile_M}" -v "${parafile_v}"  -o "${eefile}"
+    python "${isdir}"/codes/3_derive_elementary_effects.py -i ${model_outputs} -k ${modeloutputkey} -d "${maskfile}" -m "${parafile_M}" -v "${parafile_v}"  -o "${eefile}"
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.4) Create some plots and derive cutoff                  '
     echo '# ---------------------------------------------------------------------------------'
-    python3 "${isdir}"/codes/4_derive_threshold.py -e "${eefile}" -m "${maskfile}" -p "${outfile}" -c ${cutoff} #-t # -n
+    python "${isdir}"/codes/4_derive_threshold.py -e "${eefile}" -m "${maskfile}" -p "${outfile}" -c ${cutoff} #-t # -n
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.5) Get the Cutoff                                       '
