@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 # Copyright 2019 Juliane Mai - juliane.mai(at)uwaterloo.ca
+# Adapted 2022 by Simon Lin - simon.lin(at)uwaterloo.ca
 #
 # License
 # This file is part of the EEE code library for "Computationally inexpensive identification

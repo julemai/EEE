@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2019 Juliane Mai - juliane.mai(at)uwaterloo.ca
+# Copyright 2022 Simon Lin - simon.lin(at)uwaterloo.ca
 #
 # License
 # This file is part of Juliane Mai's personal code library.
