@@ -1,0 +1,43 @@
+1981      # read (ifile,*) Begin_Year
+1       #  read (ifile,*) Begin_juliday
+12050       #read (ifile,*) ndays
+38         #read (ifile,*) nsub
+169         #read (ifile,*) nhru
+2         #read (ifile,*) ncrop
+88         # nseeding event
+88         # nharvest event
+2         # nrotation
+88         # number of growing season
+999         # max hru id
+999         # max sub id
+1  #  NoNutrient
+1981 01 01 ## YEAR MON DAY
+1  # 1 suppresses screen output (0 turns it back on)
+###
+./cropout/
+0  # is the number of customized output options. 0 means no customized outputs.
+TIMESERIES		# Output type
+-1				# OutputVars -1 means all variable
+27 63 144 		# HRU IDs
+-1				# sub-basin IDs -1 means no sub-basin
+-1   			# timestep -1 means all model time steps
+TIMESERIES
+-1
+-1
+178
+-1 
+TIMESERIES
+-1
+22 110 109
+-1
+-1   
+TIMESERIES
+-1
+-1
+116
+-1 
+
+
+
+
+

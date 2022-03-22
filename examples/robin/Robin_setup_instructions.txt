@@ -1,0 +1,59 @@
+## INSTRUCTIONS FOR OBTAINING THE ROBIN VEGETATION MODEL EXECUTABLE
+Please note that Robin is currently only supported on Linux/Unix systems. For Windows users, please ensure you can
+run Linux either as a virtual machine or a subsystem in order to proceed with steps 1-4.
+
+###
+For Windows users: please follow step 0 if Linux is not set up on your machine. If you do not have administrative 
+access, please contact your IT department for assistance.
+
+STEP 0.1: Enable Windows Subsystem for Linux (tested on Windows 10)
+Open "Settings" (hit the Windows key and type "settings" in your search bar) and navigate to "Apps".
+In the top right corner, click "Programs and Features" under "Related settings".
+A window called "Programs and Features" will pop up. On the left panel, click "Turn Windows features on or off".
+Another window called "Windows Features" will pop up. Scroll down and check the Feature called "Windows Subsystem for Linux".
+Click "Ok".
+Restart your computer for the changes to take effect. This feature must be enabled to run Linux.
+
+STEP 0.2: Download and install a Linux terminal (tested on Windows 10)
+There are a variety of terminal applications that can help interface with Linux/Unix.
+
+We recommend Ubuntu, which is compatible with Windows Subsystem for Linux.
+It can be downloaded here: https://ubuntu.com/tutorials/ubuntu-on-windows#4-install-ubuntu-for-windows-10
+
+Another option (which doesn't require administrative access to operate) is VirtualBox.
+It can be downloaded here: https://www.virtualbox.org/
+
+Before executing scripts, please ensure input files (i.e., parameters.dat, ___run__eee.sh) are formatted to Linux/Unix line endings (LF).
+To check the format, run the following command in the Linux terminal:
+
+file [ name of file ]
+
+To change the format, run the following command in the Linux terminal:
+
+dos2unix [ name of file ]
+
+The workflow will not execute if line endings are formatted to the Windows system (CRLF)!
+###
+
+STEP 1:
+Download the source code library from the Robin github repository: https://github.com/dustming/Crop_Growth_Library
+On your terminal, the command is: 
+git clone https://github.com/dustming/Crop_Growth_Library.git
+
+STEP 2:
+Compile the source code into an executable on your local machine.
+On your terminal, the commands are:
+
+cd /path_to_crop_growth_library/makefile/	# get to the makefile subfolder
+make clean					# clears previously compiled files
+make raven_robin				# compiles source code into executable specific to your machine
+
+The generated executable will be in the makefile subfolder.
+
+STEP 3:
+Copy the executable to the directory of your Robin (or Raven) model folder.
+
+STEP 4:
+Running Robin is identical to running Raven. On your terminal, the command is:
+
+./raven_robin model_name -o output/

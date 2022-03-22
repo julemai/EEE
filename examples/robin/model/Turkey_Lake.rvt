@@ -1,0 +1,65 @@
+# --------------------------------------------
+# Raven Time Series Input file
+# --------------------------------------------
+#
+# --------------------------------------------
+#   Meteorological Gauges
+# --------------------------------------------
+
+
+
+:Gauge Mid Station
+  :RainCorrection  1
+  :SnowCorrection  0.8
+  :RedirectToFile ./Forcing/Mid_2021-02-22.rvt
+:EndGauge
+
+
+
+# --------------------------------------------
+#  Stream Gauges
+# --------------------------------------------
+
+:RedirectToFile ./obs/C31_Sub116.rvt
+:RedirectToFile ./obs/C32_Sub178.rvt
+:RedirectToFile ./obs/C33_Sub119.rvt
+:RedirectToFile ./obs/C34_Sub195.rvt
+:RedirectToFile ./obs/C37_Sub150.rvt
+:RedirectToFile ./obs/C38_Sub106.rvt
+:RedirectToFile ./obs/C39_Sub173.rvt
+:RedirectToFile ./obs/C47_Sub16.rvt
+:RedirectToFile ./obs/C49_Sub11.rvt
+:RedirectToFile ./obs/C50_Sub2.rvt
+
+
+:RedirectToFile ./obs/C46_Sub50.rvt
+:RedirectToFile ./obs/C35_Sub181.rvt
+:RedirectToFile ./obs/C42_Sub93.rvt
+:RedirectToFile ./obs/S6_Sub134.rvt
+:RedirectToFile ./obs/S4_Sub263.rvt
+:RedirectToFile ./obs/S3_Sub221.rvt
+:RedirectToFile ./obs/S2_Sub167.rvt
+:RedirectToFile ./obs/S0_Sub36.rvt
+:RedirectToFile ./obs/S1_Sub73.rvt
+#:RedirectToFile ./obs/S5_Sub317.rvt
+
+:RedirectToFile ./obs/C31_Sub116_ObsWts.rvt
+:RedirectToFile ./obs/C32_Sub178_ObsWts.rvt
+:RedirectToFile ./obs/C33_Sub119_ObsWts.rvt
+:RedirectToFile ./obs/C34_Sub195_ObsWts.rvt
+:RedirectToFile ./obs/C35_Sub181_ObsWts.rvt
+:RedirectToFile ./obs/C37_Sub150_ObsWts.rvt
+:RedirectToFile ./obs/C38_Sub106_ObsWts.rvt
+:RedirectToFile ./obs/C39_Sub173_ObsWts.rvt
+:RedirectToFile ./obs/C42_Sub93_ObsWts.rvt
+:RedirectToFile ./obs/C46_Sub50_ObsWts.rvt
+:RedirectToFile ./obs/C47_Sub16_ObsWts.rvt
+:RedirectToFile ./obs/C49_Sub11_ObsWts.rvt
+:RedirectToFile ./obs/C50_Sub2_ObsWts.rvt
+:RedirectToFile ./obs/S6_Sub134_ObsWts.rvt
+:RedirectToFile ./obs/S4_Sub263_ObsWts.rvt
+:RedirectToFile ./obs/S3_Sub221_ObsWts.rvt
+:RedirectToFile ./obs/S2_Sub167_ObsWts.rvt
+:RedirectToFile ./obs/S0_Sub36_ObsWts.rvt
+:RedirectToFile ./obs/S1_Sub73_ObsWts.rvt
+#:RedirectToFile ./obs/S5_Sub317_ObsWts.rvt

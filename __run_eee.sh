@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Copyright 2019 Juliane Mai - juliane.mai(at)uwaterloo.ca
+# Adapted 2022 by Simon Lin - simon.lin(at)uwaterloo.ca
 #
 # License
 # This file is part of the EEE code library for "Computationally inexpensive identification
@@ -174,7 +175,7 @@ while [[ "${finished}" = false ]] ; do
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.1) Create Morris trajectories                           '
     echo '# ---------------------------------------------------------------------------------'
-    python ${isdir}/codes/1_create_parameter_sets.py -d ${maskfile} -t ${traj} -n 1 -o parameter_sets
+    python "${isdir}"/codes/1_create_parameter_sets.py -d "${maskfile}" -t ${traj} -n 1 -o parameter_sets
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.2) Run model and store all model results                  '
@@ -186,7 +187,7 @@ while [[ "${finished}" = false ]] ; do
     n_model_runs=$(( ${n_model_runs} + ${nlines} - ${skip} ))      # number of model runs
     echo 'number model runs: '${n_model_runs}
 
-    python ${isdir}/codes/${model_function} -i ${parafile_M} -s ${skip} -o model_output.pkl
+    python "${isdir}"/codes/${model_function} -i "${parafile_M}" -s ${skip} -o model_output.pkl
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.3) Calculate Elementary Effects                         '
@@ -195,12 +196,12 @@ while [[ "${finished}" = false ]] ; do
     eefile='eee_results.dat'
     parafile_M=$( \ls parameter_sets_1_*_M.dat | grep -v scaled )
     parafile_v=$( \ls parameter_sets_1_*_v.dat )
-    python ${isdir}/codes/3_derive_elementary_effects.py -i ${model_outputs} -k ${modeloutputkey} -d ${maskfile} -m ${parafile_M} -v ${parafile_v}  -o ${eefile}
+    python "${isdir}"/codes/3_derive_elementary_effects.py -i ${model_outputs} -k ${modeloutputkey} -d "${maskfile}" -m "${parafile_M}" -v "${parafile_v}"  -o "${eefile}"
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.4) Create some plots and derive cutoff                  '
     echo '# ---------------------------------------------------------------------------------'
-    python ${isdir}/codes/4_derive_threshold.py -e ${eefile} -m ${maskfile} -p ${outfile} -c ${cutoff} -t # -n
+    python "${isdir}"/codes/4_derive_threshold.py -e "${eefile}" -m "${maskfile}" -p "${outfile}" -c ${cutoff} #-t # -n
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.5) Get the Cutoff                                       '
@@ -245,6 +246,7 @@ while [[ "${finished}" = false ]] ; do
         fi
     done
     echo 'In this iteration '${new_parameters_detected}' parameters where additionally detected to be informative.'
+	echo "n informative before = ${n_informative}"
     n_informative=$[${n_informative}+${new_parameters_detected}]
 
     if ${last_iteration} ; then
@@ -269,6 +271,9 @@ while [[ "${finished}" = false ]] ; do
     fi
 
     cd ..
+
+	echo "New parameters detected =  ${new_parameters_detected}"
+	echo "n informative after = ${n_informative}"
 
 done # Loop over iterations as long as ${finished} is not true
 

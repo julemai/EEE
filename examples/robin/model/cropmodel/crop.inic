@@ -1,0 +1,16 @@
+#####	crop	Initial	condition
+13			
+CropName	Forest	        Forest2	
+w_total	    305725.7438	    4	
+w_leaf	    5399.823839	    1056
+w_stems	    1.358499E+05    36114.64968
+w_seed	    0	            1
+w_root	    33000	        500	
+ht	        15	            5	
+rootdep	    5	            5	
+dbh	        17.5	        20	
+basa_area	22	            6.3	
+volume	    176	            1	
+yr_c	    182	            1	
+vg_number	1.095562E+03	201	
+stage    	1	            1	

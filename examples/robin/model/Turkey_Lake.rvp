@@ -1,0 +1,112 @@
+#-----------------------------------------------------------------
+# Raven Properties file Template. Created by Raven v2.9 w/ netCDF
+#-----------------------------------------------------------------
+# all expressions of format *xxx* need to be specified by the user 
+# all parameter values of format ** need to be specified by the user 
+# soil, land use, and vegetation classes should be made consistent with user-generated .rvh file 
+#-----------------------------------------------------------------
+:AvgAnnualRunoff  100
+
+#-----------------------------------------------------------------
+# Soil Classes
+#-----------------------------------------------------------------
+:SoilClasses          
+:Attributes		      SAND	  %CLAY	 %SILT	 %ORGANIC
+	:Units			  none	  none	 none	 none
+	Forest_Floor,     0.66,   0.1,  0.24,    0.05,    
+	Ablation_Till,    0.66,   0.1,  0.24,    0.03,    
+	Basal_Till,       0.22,   0.13, 0.65,    0.02,    
+:EndSoilClasses
+
+#-----------------------------------------------------------------
+# Land Use Classes
+#-----------------------------------------------------------------
+:LandUseClasses, 
+  :Attributes,        IMPERM,          FOREST_COV, 
+       :Units,          frac,          frac, 
+  LU_Forest,            0,              1, 
+  LU_Lake,              0,              0,         
+:EndLandUseClasses
+
+#-----------------------------------------------------------------
+# Vegetation Classes
+#-----------------------------------------------------------------
+
+:VegetationClasses, 
+  :Attributes,        MAX_HT,       MAX_LAI,   MAX_LEAF_COND, 
+       :Units,             m,          none,        mm_per_s, 
+    Veg_Forest,           15,           7.5,             5.3,     
+    Veg_Lake,              0,             0,               0,          
+:EndVegetationClasses  
+
+#-----------------------------------------------------------------
+# Soil Profiles
+#-----------------------------------------------------------------
+:SoilProfiles
+         LAKE, 0
+         ROCK, 0
+   SoilPf_Slp_1,      3, Forest_Floor,  0.27445793,  	Ablation_Till,  0.44388355,   Basal_Till,        3, 
+   SoilPf_Slp_2,      3, Forest_Floor,  0.17445793,    Ablation_Till,  0.3998468,   Basal_Till,        3, 
+   SoilPf_Slp_3,      3, Forest_Floor,  0.1,  	Ablation_Till,  0.3898468,   Basal_Till,        3,
+   
+:EndSoilProfiles
+
+#-----------------------------------------------------------------
+# Global Parameters
+#-----------------------------------------------------------------
+:GlobalParameter        RAINSNOW_TEMP 0.07195228
+:GlobalParameter       RAINSNOW_DELTA 2.855478
+:GlobalParameter     SNOW_TEMPERATURE -2.9
+:GlobalParameter             SNOW_SWI 0.05 #(Raven manual 0.04 - 0.07) 
+
+#-----------------------------------------------------------------
+# Soil Parameters
+#-----------------------------------------------------------------
+###
+#POROSITY and FIELD_CAPACITY HYDRAUL_COND for ablation till obtained from (Figure2 Murray2005)
+#ALBEDO_WET ALBEDO_DRY obtained from Figure 2 of https://en.wikipedia.org/wiki/Albedo ; https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2008GL036377   
+#WETTING_FRONT_PSI table 2 of  https://ascelibrary.org/doi/pdf/10.1061/%28ASCE%290733-9429%281983%29109%3A1%2862%29?casa_token=Db6omitRaNAAAAAA:NJEfRhzP2102wLfyfQ6-niyrgad8YenXl3aAK5eU_FnPN9Aorx6EV31zTiGxUW07XFYGQV_t-ODb
+####
+:SoilParameterList
+  :Parameters,        POROSITY,      ALBEDO_WET,      ALBEDO_DRY,    HYDRAUL_COND,      WETTING_FRONT_PSI,  PET_CORRECTION,   FIELD_CAPACITY,        SAT_WILT,       MAX_PERC_RATE,                 MAX_BASEFLOW_RATE,  BASEFLOW_COEFF,       BASEFLOW_N,    MAX_CAP_RISE_RATE, BASEFLOW_THRESH 
+       :Units,            none,            none,            none,            mm/d,                     mm,                -,               -,               -,                mm/d,                               mm/d,            none,             none,                mm/d,            none 
+Forest_Floor,     6.543765E-01,            0.15,            0.15,    977.6504,                 14.94443,                1,         0.2482568,    1.007189E-02,  65.30797,             100.0,             0.0,  0.4242617,                 0.0,         0.2482568,  
+Ablation_Till,    6.882158E-01,            0.00,            0.00,    5.283446E+02,                 14.94443,                1,         0.4098241,    5.475422E-02,  11.58644,             115.4073,    5.168251E-02,  2.287313,                 0.0,         0.4098241,
+Basal_Till                0.2,             0.00,            0.00,            9.52,                    0.0,                0,         0.5,    5.764653E-03,        7.501124E-01,             221.6116,       0.9351502,  5.136656, 13.12126,         0.5,
+:EndSoilParameterList
+
+
+#-----------------------------------------------------------------
+# Land Use Parameters
+#-----------------------------------------------------------------
+:LandUseParameterList
+  :Parameters, FOREST_SPARSENESS,       ROUGHNESS,    REFREEZE_FACTOR,    MELT_FACTOR,      MIN_MELT_FACTOR , HBV_MELT_FOR_CORR, HBV_MELT_ASP_CORR,    CC_DECAY_COEFF
+       :Units,               -,                 m,             mm/d/C,        mm/d/K ,             mm/d/K,                 none,              none,             1/day
+   [DEFAULT] ,                0,               1.9,         0.0,        2.89891738,        2.887848,                    1,     0.3772205,                 0  
+   LU_Forest,                 0,               1.9,          _DEFAULT,       _DEFAULT,           _DEFAULT,             _DEFAULT,          _DEFAULT,          _DEFAULT 
+   LU_Lake,                  1,                 0,           _DEFAULT,       _DEFAULT,           _DEFAULT,             _DEFAULT,          _DEFAULT,          _DEFAULT 
+:EndLandUseParameterList
+
+#-----------------------------------------------------------------
+# Vegetation Parameters
+#-----------------------------------------------------------------
+## SAI_HT_RATIO did not find any information. use zero to make ignore the SAI, the canopy interception only 
+## determined by LAI
+:VegetationParameterList
+  :Parameters,      MAX_HEIGHT,   MAX_LEAF_COND,       ALBEDO,  SVF_EXTINCTION,    SAI_HT_RATIO,    RAIN_ICEPT_FACT,    SNOW_ICEPT_FACT,    MAX_CAPACITY,    MAX_SNOW_CAPACITY, 
+       :Units,               m,        mm_per_s,            -,               -,               -,                  -,                  -,              mm,                   mm, 
+    Veg_Forest              15,             5.3,         0.15,              0.5,            0.0,  0.3318293,               0.00,  16.62024,                 0.00, 
+    Veg_Lake,                0,             0.0,         0.06,              0.5,            0.0,                0.0,                0.0,               0,                    0,  
+:EndVegetationParameterList
+
+:SeasonalRelativeLAI
+  Veg_Forest, 0.2,0.2,0.2,0.4,0.8,1,1,0.7,0.6,0.0.3,0.0.2,0.0.2
+  Veg_Lake, 0.5,0.6,0.7,1,1,1,1,0.7,0.6,0.6,0.6,0.5
+:EndSeasonalRelativeLAI
+
+:SeasonalRelativeHeight
+  Veg_Forest, 1,1,1,1,1,1,1,1,1,1,1,1
+  Veg_Lake, 0.5,0.6,0.7,1,1,1,1,0.7,0.6,0.6,0.6,0.5
+:EndSeasonalRelativeHeight
+
+:RedirectToFile Turkey_Lake_channel.rvp
