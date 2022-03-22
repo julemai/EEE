@@ -1,0 +1,111 @@
+# ----------------------------------------------
+# Raven Input file
+# HBV-EC Nith River emulation test case
+# ----------------------------------------------
+# --Simulation Details -------------------------
+:StartDate       1981-01-01 00:00:00
+:Duration        12050 #12050 #5844  #12050   # 5844 to 1996               # 1 1 1981 to 12 31 2016
+:Method          ORDERED_SERIES
+:TimeStep        1.0
+:RunName         calibration
+:OutputDirectory 	 output_sens/ 
+#
+# --Model Details -------------------------------
+:Method                 ORDERED_SERIES
+:Interpolation          INTERP_NEAREST_NEIGHBOR
+:SoilModel              SOIL_MULTILAYER 3
+
+:VegetationProcesses Robin
+
+:Routing                ROUTE_DIFFUSIVE_WAVE #ROUTE_HYDROLOGIC 
+:CatchmentRoute         ROUTE_TRI_CONVOLUTION
+:OW_Evaporation         PET_PRIESTLEY_TAYLOR
+:RainSnowFraction       RAINSNOW_DATA
+
+##Vegetation impacted processes 
+:SWCanopyCorrect        SW_CANOPY_CORR_NONE    #SW_CANOPY_CORR_STATIC  #SW_CANOPY_CORR_NONE #SW_CANOPY_CORR_DYNAMIC
+:PrecipIceptFract       PRECIP_ICEPT_LAI
+:Evaporation            PET_PRIESTLEY_TAYLOR   #PET_PENMAN_MONTEITH  #
+:PotentialMeltMethod    POTMELT_HBV            #POTMELT_EB #POTMELT_HBV #POTMELT_EB
+
+###about forcing data
+:RelativeHumidityMethod RELHUM_DATA
+:SWRadiationMethod      SW_RAD_DATA
+:LWRadiationMethod      LW_RAD_DEFAULT
+:WindspeedMethod        WINDVEL_DATA
+
+
+#
+# --Hydrologic Processes-------------------------
+:Alias       Forest_Floor   SOIL[0]
+:Alias       Ablation_Till  SOIL[1]
+:Alias       Basal_Till     SOIL[2]
+#
+
+:DefineHRUGroups  C31_C32_HRUS  Non_C31_C32_HRUS
+:DisableHRUGroup Non_C31_C32_HRUS
+:EvaluationPeriod CALIBRATION 1984-01-01 1996-12-01
+:EvaluationPeriod VALIDATION 1997-09-01 2012-12-01 
+:EvaluationPeriod VALIDATION_H 1998-01-01 2001-12-01 
+
+
+:HydrologicProcesses
+
+  :SnowRefreeze      FREEZE_DEGREE_DAY  SNOW_LIQ         SNOW
+  :Precipitation     PRECIP_RAVEN       ATMOS_PRECIP     MULTIPLE
+  
+  :CanopyDrip        CANDRIP_RUTTER      CANOPY           PONDED_WATER
+  :CanopyEvaporation CANEVP_MAXIMUM      CANOPY           ATMOSPHERE
+  :CanopySnowEvap    CANEVP_MAXIMUM      CANOPY_SNOW      ATMOSPHERE
+  :SnowBalance       SNOBAL_SIMPLE_MELT SNOW             SNOW_LIQ                    #:SnowBalance       SNOBAL_TWO_LAYER   MULTIPLE         MULTIPLE     # :SnowBalance       SNOBAL_SIMPLE_MELT SNOW             PONDED_WATER
+  :-->Overflow       RAVEN_DEFAULT      SNOW_LIQ         PONDED_WATER                                                                                                                                                            #:-->Overflow     RAVEN_DEFAULT      SNOW_LIQ         PONDED_WATER
+  :Infiltration      INF_GREEN_AMPT     PONDED_WATER     MULTIPLE
+  ### Forest_Floor
+  :SoilEvaporation   SOILEVAP_ROOT_VEG        Forest_Floor     ATMOSPHERE
+  :Percolation       PERC_GAWSER          Forest_Floor     Ablation_Till   
+  :Baseflow          BASE_THRESH_POWER    Forest_Floor     SURFACE_WATER
+  ### Ablation_Till
+  :Baseflow          BASE_THRESH_POWER     Ablation_Till    SURFACE_WATER
+  :Percolation       PERC_GAWSER           Ablation_Till    Basal_Till
+  ### Basal_Till
+  :Baseflow          BASE_THRESH_POWER  Basal_Till       SURFACE_WATER
+  :CapillaryRise     CRISE_HBV          Basal_Till       Ablation_Till
+  
+:EndHydrologicProcesses
+
+
+
+#------------------------------------------------------------------------# Transport calculations for hydrograph separation
+# FixedConcentrations 2,3,4 are boundary conditions specifying that water passing 
+# through to underlying compartments get a concentration of 0 mg/L (avoid double-counting)
+
+:Transport BASAL_TILL
+:FixedConcentration BASAL_TILL Basal_Till 1.0
+
+:Transport FOREST_FLOOR
+:FixedConcentration FOREST_FLOOR Forest_Floor 1.0
+:FixedConcentration FOREST_FLOOR Ablation_Till 0.0
+
+:Transport ABLATION_TILL
+:FixedConcentration ABLATION_TILL Ablation_Till 1.0
+:FixedConcentration ABLATION_TILL Basal_Till 0.0
+
+# compare results from this tracer with Q_total - Q_baseflow - they should be identical.
+:Transport OVERLAND_FLOW
+:FixedConcentration OVERLAND_FLOW PONDED_WATER 1.0
+:FixedConcentration OVERLAND_FLOW Forest_Floor 0.0 
+:FixedConcentration OVERLAND_FLOW Ablation_Till 0.0
+:FixedConcentration OVERLAND_FLOW Basal_Till 0.0
+
+
+
+#
+# --Output Options-------------------------------
+#
+#:CreateRVPTemplate
+:SilentMode
+#:SuppressOutput 
+#:WriteForcingFunctions 
+:EvaluationMetrics NASH_SUTCLIFFE  PCT_BIAS KLING_GUPTA RMSE KLING_GUPTA_SUMMER KLING_GUPTA_NOT_SUMMER
+#:WriteMassBalanceFile 
+

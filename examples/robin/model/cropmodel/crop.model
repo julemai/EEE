@@ -1,0 +1,22 @@
+21		
+VEG_NAME	                  Forest	         Forest2
+LAI_MODEL	                  3PG_LAI	         3PG_LAI
+PHENOLOGY_MODEL	              3PG_PNLG	         3PG_PNLG
+HT_MODEL	                  Ht_3PG	         Ht_3PG
+WATER_STRESS_MODEL	          AETPET	         AETPET
+TEMP_STRESS_MODEL	          Temp_3PG	         Temp_3PG
+VPD_STRESS_MODEL	          VPD_3PG	         VPD_3PG
+TOTAL_STRESS_MASS_ACC_MODEL	  MA_3PG	         MA_3PG
+OPTIMAL_GPP_MODEL	          Beer_LAW	         Beer_LAW
+RESPIRATION_MODEL	          R_Const_C	         R_Const_C
+MASS_DIS_ROOT_MODEL	          BioA_Rt_3PG	     BioA_Rt_3PG
+MASS_DIS_LEAF_MODEL	          BioA_LF_3PG	     BioA_LF_3PG
+MASS_DIS_SEED_MODEL	          BioA_SD_3PG	     BioA_SD_3PG
+DBH_MODEL	                  DBH_3PG	         DBH_3PG
+BASAL_AREA_MODEL	          BasA_3PG	         BasA_3PG
+STAND_VOlUME_MODEL	          StVol_3PG	         StVol_3PG
+MASS_LOSS_ROOT_MODEL	      WL_Rt_3PG	         WL_Rt_3PG
+MASS_LOSS_LEAF_MODEL	      WL_LF_3PG	         WL_LF_3PG
+MASS_LOSS_VEG_NUM_MODEL	      WL_NV_3PG	         WL_NV_3PG
+ROOT_DISTRIBUTION_MODEL	      ROOT_SWAT	         ROOT_SWAT
+REPRODUCTION_MODEL            ReProd_3PG         ReProd_3PG

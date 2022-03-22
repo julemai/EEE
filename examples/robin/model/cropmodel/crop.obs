@@ -1,0 +1,44 @@
+#add observation file definiation in here
+nummber_of_observation_files 7
+# obsfile 1
+./cropmodel/obs/LAI.txt
+obs_state_variables LAI
+level_of_observation Subbasin
+number_of_obs_time_step 166
+number_of_obs_levels 2
+# obsfile 2
+./cropmodel/obs/Stocking.txt
+obs_state_variables Stocking
+level_of_observation Subbasin
+number_of_obs_time_step 10
+number_of_obs_levels 2
+# obsfile 3
+./cropmodel/obs/stembio.txt
+obs_state_variables W_Stem
+level_of_observation Subbasin
+number_of_obs_time_step 10
+number_of_obs_levels 2
+# obsfile 4
+./cropmodel/obs/BasalArea.txt
+obs_state_variables BasalArea
+level_of_observation Subbasin
+number_of_obs_time_step 10
+number_of_obs_levels 2
+# obsfile 5
+./cropmodel/obs/Volume.txt
+obs_state_variables Volume
+level_of_observation Subbasin
+number_of_obs_time_step 10
+number_of_obs_levels 2
+# obsfile 6
+./cropmodel/obs/stembiotree.txt
+obs_state_variables W_Stem_Tree
+level_of_observation Subbasin
+number_of_obs_time_step 10
+number_of_obs_levels 2
+# obsfile 7
+./cropmodel/obs/leafbio.txt
+obs_state_variables W_Leaf
+level_of_observation Subbasin
+number_of_obs_time_step 10
+number_of_obs_levels 2
