@@ -8,7 +8,7 @@
 :Method          ORDERED_SERIES
 :TimeStep        1.0
 :RunName         calibration
-:OutputDirectory 	 output_sens/ 
+:OutputDirectory 	 output/ 
 #
 # --Model Details -------------------------------
 :Method                 ORDERED_SERIES
