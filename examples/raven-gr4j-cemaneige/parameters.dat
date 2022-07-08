@@ -1,0 +1,11 @@
+# para   dist       lower     upper     default   informative(0)_or_noninformative(1)_or_ignored(-1)    # comment
+#                   mean      stddev
+x_{01}  uniform       0.01     2.5   4.492060E-02  1   #  GR4J_X1 #  default should lead to KGE = 0.8463010
+x_{02}  uniform     -15.0     10.0  -3.186607E-03  1   #  GR4J_X2
+x_{03}  uniform      10.0    700.0   2.918163E+02  1   #  GR4J_X3
+x_{04}  uniform       0.01    10.0   3.594072E+00  1   #  GR4J_X4
+x_{05}  uniform       1.0     30.0   2.950989E+01  1   #  CEMANEIGE_X1
+x_{06}  uniform       0.0      1.0   4.269633E-01  1   #  CEMANEIGE_X2
+x_{07}  uniform       2.0      8.0   2.009101E+00  1   #  MELT_FACTOR
+x_{08}  uniform      -3.0      3.0   1.903950E+00  1   #  RainSnowTransition base temperature
+x_{09}  uniform       0.5      6.0   3.284593E+00  1   #  RainSnowTransition delta temperature
