@@ -160,7 +160,7 @@ para_name_mask   = para_name[np.where(mask_para)]
 # Read Elementary Effects file
 # -------------------------------------------------------------------------
 ee        = fsread(eefile,cskip=2,comment='#')
-nobj      = np.int(np.shape(ee)[1]/2)
+nobj      = int(np.shape(ee)[1]/2)
 ee        = ee[:,0:nobj]
 ee_masked = ee[mask_para]
 obj_names = []
@@ -287,7 +287,7 @@ for iobj in range(nobj):
 
     if cutoff == '-1':
         # normalise so that we can search for y' = 1
-        xx = np.arange(dims)/np.float(dims-1)
+        xx = np.arange(dims)/float(dims-1)
         yy = ee_masked[sort_idx,iobj]/np.amax(ee_masked[:,iobj])   # yy = np.sort(mustar) / mumax
 
         # --------------------------
@@ -305,7 +305,7 @@ for iobj in range(nobj):
         yy2 = logistic_offset_p(xx,popti)
         if (not(noplot)):
             nxx = 100
-            xx2 = np.arange(nxx) / np.float(nxx-1)
+            xx2 = np.arange(nxx) / float(nxx-1)
             yy2 = logistic_offset_p(xx2, popti)
             line2 = plt.plot(xx2, yy2)
             plt.setp(line2, linestyle='-', linewidth=lwidth, color=lcol1, marker='None', label=str2tex('$L$',usetex=usetex))
@@ -378,7 +378,7 @@ for iobj in range(nobj):
 
     else:
         # Split the given string
-        cutoff_obj[iobj] = np.float(cutoff.split(':')[iobj])
+        cutoff_obj[iobj] = float(cutoff.split(':')[iobj])
 
         xx = np.arange(dims)
         yy = ee_masked[sort_idx,iobj]
@@ -452,7 +452,7 @@ for iobj in range(nobj):
     ofile=ofile+'cutoff_'+astr(iobj+1)+'.dat'
     f = open(ofile,'w')
     print('cutoff', file=f)
-    if (type(cutoff_obj[iobj])==np.float) | (type(cutoff_obj[iobj])==np.float64):
+    if (type(cutoff_obj[iobj])==float) | (type(cutoff_obj[iobj])==np.float64):
         print(cutoff_obj[iobj], file=f)
     else:
         print(cutoff_obj[iobj][0], file=f)

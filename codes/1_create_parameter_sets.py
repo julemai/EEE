@@ -38,16 +38,16 @@ from __future__ import print_function
 #
 
 """
-Sample parameter sets using Morris trajectories. In total T trajectories will be sampled (option -t). 
-The parameters can be specified to be either uniform or Gaussian distributed. In case of a uniform 
-distributed parameter the lower and upper bound need to be specified. For Gaussian distributed 
-parameters, the mean and standard deviation need to be given. Further, it need to be indicated if the 
-parameter should be included in the analysis or not. If a parameter is not included, 
-the default value will be chosen for each model run. All this need to be set in the parameters input 
+Sample parameter sets using Morris trajectories. In total T trajectories will be sampled (option -t).
+The parameters can be specified to be either uniform or Gaussian distributed. In case of a uniform
+distributed parameter the lower and upper bound need to be specified. For Gaussian distributed
+parameters, the mean and standard deviation need to be given. Further, it need to be indicated if the
+parameter should be included in the analysis or not. If a parameter is not included,
+the default value will be chosen for each model run. All this need to be set in the parameters input
 file (option -d). The sampled parameter sets and trajectories will be stored in an ASCII file (option -o).
 
 An example parameter setup file that will run the EEE analysis for three parameters, looks like:
-     
+
      # para   dist       lower     upper     default   informative(0)_or_noninformative(1)
      #                   mean      stddev
      x_1      uniform    -3.14159  3.14159   0.00000   0
@@ -103,7 +103,7 @@ del parser, opts, args
 # add subolder scripts/lib to search path
 # -----------------------
 import sys
-import os 
+import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path+'/lib')
 
@@ -177,7 +177,7 @@ for kk in range(nfiles):
         if para_dist_mask[ii].lower() == 'gaussian':
             tmpOptMatrix[:,ii]  = 0.01 + 0.98 * tmpOptMatrix[:,ii]
             tmpOptMatrix[:,ii] = stats.norm.ppf(tmpOptMatrix[:,ii], loc=0.0, scale=1.0)
-        
+
     for ii in range(ntraj*(dims+1)):
         spread_set=np.copy(initial)
         spread_set[idx_para]=tmpOptMatrix[ii,:]
@@ -190,7 +190,7 @@ for kk in range(nfiles):
     # morris_sampling actually don't support 'Gaussian' distribution...
     for ii in range(dims):
         if para_dist_mask[ii].lower() == 'gaussian':
-            
+
             # N[0,1]; cut at 1% and 99% percentiles
             OptMatrix[:,ii]  = 0.01 + 0.98 * OptMatrix[:,ii]
             OptMatrix[:,ii] = stats.norm.ppf(OptMatrix[:,ii], loc=lower_bound_mask[ii], scale=upper_bound_mask[ii])
@@ -252,31 +252,8 @@ for kk in range(nfiles):
         if (OptOutVec[ii] == -1.0):
             f.write(astr(-1.0))
         else:
-            f.write(astr(1.0*idx_para[np.int(OptOutVec[ii])]))
+            f.write(astr(1.0*idx_para[int(OptOutVec[ii])]))
         f.write('\n')
 
     f.close()
     print("wrote:   '"+outfile_name+"'")
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-

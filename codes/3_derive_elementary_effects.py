@@ -28,19 +28,19 @@ from __future__ import print_function
 #    Water Resources Research, 51, 6417-6441.
 #    https://doi.org/10.1002/2015WR016907.
 #
-# 
+#
 #
 # python 3_derive_elementary_effects.py \
 #                       -i example_ishigami-homma/model_output.pkl \
 #                       -d example_ishigami-homma/parameters.dat \
 #                       -m example_ishigami-homma/parameter_sets_1_para3_M.dat \
 #                       -v example_ishigami-homma/parameter_sets_1_para3_v.dat  \
-#                       -o example_ishigami-homma/eee_results.dat 
+#                       -o example_ishigami-homma/eee_results.dat
 
 """
-Derives the Elementary Effects based on model outputs stored as dictionary in a pickle file (option -i) 
-using specified model parameters (option -d). The model parameters were sampled beforehand as Morris 
-trajectories. The Morris trajectory information is stored in two files (option -m and option -v). The 
+Derives the Elementary Effects based on model outputs stored as dictionary in a pickle file (option -i)
+using specified model parameters (option -d). The model parameters were sampled beforehand as Morris
+trajectories. The Morris trajectory information is stored in two files (option -m and option -v). The
 Elementary Effects are stored in a file (option -o).
 
 History
@@ -90,9 +90,9 @@ parser.add_option('-o', '--outfile', action='store', dest='outfile', type='strin
 
 modeloutputs   = opts.modeloutputs
 modeloutputkey = opts.modeloutputkey
-maskfile       = opts.maskfile     
-morris_M       = opts.morris_M     
-morris_v       = opts.morris_v     
+maskfile       = opts.maskfile
+morris_M       = opts.morris_M
+morris_v       = opts.morris_v
 outfile        = opts.outfile
 skip           = opts.skip
 
@@ -103,7 +103,7 @@ del parser, opts, args
 # add subolder scripts/lib to search path
 # -----------------------
 import sys
-import os 
+import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path+'/lib')
 
@@ -149,7 +149,7 @@ if modeloutputkey == 'All':
     keys = list(model_output.keys())
 else:
     keys = [ modeloutputkey ]
-    
+
 model_output = [ np.array(model_output[ikey]) for ikey in keys ]
 nkeys = len(model_output)
 
@@ -161,9 +161,9 @@ ff = open(morris_M, "r")
 parasets = ff.readlines()
 ff.close()
 if skip is None:
-    skip = np.int(parasets[0].strip().split(':')[1])
+    skip = int(parasets[0].strip().split(':')[1])
 else:
-    skip = np.int(skip)
+    skip = int(skip)
 parasets = parasets[skip:]
 for iparaset,paraset in enumerate(parasets):
     parasets[iparaset] = list(map(float,paraset.strip().split()))
@@ -176,12 +176,12 @@ ff = open(morris_v, "r")
 parachanged = ff.readlines()
 ff.close()
 if skip is None:
-    skip = np.int(parachanged[0].strip().split(':')[1])
+    skip = int(parachanged[0].strip().split(':')[1])
 else:
-    skip = np.int(skip)
+    skip = int(skip)
 parachanged = parachanged[skip:]
 for iparachanged,parachan in enumerate(parachanged):
-    parachanged[iparachanged] = np.int(parachan.strip())
+    parachanged[iparachanged] = int(parachan.strip())
 parachanged = np.array(parachanged)
 
 # -------------------------
@@ -189,7 +189,7 @@ parachanged = np.array(parachanged)
 # -------------------------
 ee         = np.zeros([dims_all,nkeys],dtype=float)
 ee_counter = np.zeros([dims_all,nkeys],dtype=int)
-ntraj      = np.int( np.shape(parasets)[0] / (dims+1) )
+ntraj      = int( np.shape(parasets)[0] / (dims+1) )
 nsets      = np.shape(parasets)[0]
 
 for ikey in range(nkeys):
@@ -221,7 +221,7 @@ for ikey in range(nkeys):
 #     # ii     para_name    elemeffect(ii),ii=1:3,jj=1:1      counter(ii),ii=1:3,jj=1:1
 #       1      'x_1'        0.53458196335158181               5
 #       2      'x_2'        7.0822368906630215                5
-#       3      'x_3'        3.5460086652980554                5      
+#       3      'x_3'        3.5460086652980554                5
 f = open(outfile, 'w')
 for ikey in range(nkeys):
     f.write('# model output #'+str(ikey+1)+': '+keys[ikey]+'\n')
@@ -230,4 +230,3 @@ for ipara in range(dims_all):
     f.write(str(ipara)+'   '+para_name[ipara]+'   '+' '.join(astr(ee[ipara,:],prec=8))+'   '+' '.join(astr(ee_counter[ipara,:]))+'\n')
 f.close()
 print("wrote:   '"+outfile+"'")
-
