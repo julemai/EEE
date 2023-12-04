@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Copyright 2019 Juliane Mai - juliane.mai(at)uwaterloo.ca
-# Adapted 2022 by Simon Lin - simon.lin(at)uwaterloo.ca
 #
 # License
 # This file is part of the EEE code library for "Computationally inexpensive identification
@@ -27,6 +26,8 @@
 #    Computationally inexpensive identification of noninformative model parameters by sequential screening.
 #    Water Resources Research, 51, 6417-6441.
 #    https://doi.org/10.1002/2015WR016907.
+#
+# Modified 2022: Simon Lin - simon.lin(at)uwaterloo.ca
 #
 set -e
 #
