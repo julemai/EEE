@@ -27,7 +27,8 @@
 #    Water Resources Research, 51, 6417-6441.
 #    https://doi.org/10.1002/2015WR016907.
 #
-# Modified 2022: Simon Lin - simon.lin(at)uwaterloo.ca
+# Modified Mar 2022: Simon Lin   - testing on Windows/Cygwin, adding new example "robin"
+# Modified May 2025: Juliane Mai - adding subproject option
 #
 set -e
 #
@@ -44,23 +45,25 @@ pid=$$
 # ./run_eee.sh -p -c 1.24562587653 iter_1/
 #
 function usage () {
-    printf "${pprog} [directory]                                                                                                \n"
-    printf "Runs EEE in directory.                                                                                              \n"
-    printf "                                                                                                                    \n"
-    printf "Input                                                                                                               \n"
-    printf "    directory        Directory containing file with masked parameters.                                              \n"
-    printf "                                                                                                                    \n"
-    printf "Options                                                                                                             \n"
-    printf "    -h                    Prints this help screen.                                                                  \n"
-    printf "    -m maskfile           Name of file containing information about model parameters (default: parameters.dat).     \n"
-    printf "    -x model_function     Name of script that runs the model.                                                       \n"
-    printf "                          (default: '2_run_model_ishigami-homma.py')                                                \n"
-    printf "    -s modeloutputkey     Which model output will be analysed. Needs to be one of the keys used for                 \n"
-    printf "                          dictionary of model outputs in '2_run_model_<name-model>.py'.                             \n"
-    printf "                          (default: 'All').                                                                         \n"
-    printf "                                                                                                                    \n"
-    printf "Example                                                                                                             \n"
-    printf "    ${isdir}/${pprog} -s out1 -x 2_run_model_ishigami-homma.py -m parameters.dat examples/ishigami-homma/           \n"
+    printf "${pprog} [directory]                                                                                                   \n"
+    printf "Runs EEE in directory.                                                                                                 \n"
+    printf "                                                                                                                       \n"
+    printf "Input                                                                                                                  \n"
+    printf "    directory        Directory containing file with masked parameters.                                                 \n"
+    printf "                                                                                                                       \n"
+    printf "Options                                                                                                                \n"
+    printf "    -h                    Prints this help screen.                                                                     \n"
+    printf "    -m maskfile           Name of file containing information about model parameters (default: parameters.dat).        \n"
+    printf "    -x model_function     Name of script that runs the model.                                                          \n"
+    printf "                          (default: '2_run_model_ishigami-homma.py')                                                   \n"
+    printf "    -s modeloutputkey     Which model output will be analysed. Needs to be one of the keys used for                    \n"
+    printf "                          dictionary of model outputs in '2_run_model_<name-model>.py'.                                \n"
+    printf "                          (default: 'All').                                                                            \n"
+    printf "    -p subproject         In case multiple instances (e.g., basins) need to be run this can be used as a name          \n"
+    printf "                          (default: '').                                                                               \n"
+    printf "                                                                                                                       \n"
+    printf "Example                                                                                                                \n"
+    printf "    ${isdir}/${pprog} -s out1 -x 2_run_model_ishigami-homma.py -m parameters.dat -p Alouette examples/ishigami-homma/  \n"
 }
 #
 # cleanup at end wnd when interupted
@@ -81,6 +84,7 @@ traj_M2=5    # number of trajectories for final iteration
 traj_M=1     # number of trajectories for 2nd, 3rd, ..., second-last iteration
 model_function='2_run_model_ishigami-homma.py'
 modeloutputkey='All'
+subproject=''
 
 verbose=2 # 0: pipe stdout and stderr to /dev/null
           # 1: pipe stdout to /dev/null
@@ -89,12 +93,13 @@ pipeit=''
 if [[ ${verbose} -eq 0 ]] ; then pipeit=' > /dev/null 2>&1' ; fi
 if [[ ${verbose} -eq 1 ]] ; then pipeit=' > /dev/null' ; fi
 
-while getopts "hpm:s:x:" Option ; do
+while getopts "hm:s:x:p:" Option ; do
     case ${Option} in
         h) usage 1>&2; exit 0;;
         m) maskfile="${OPTARG}";;
         s) modeloutputkey="${OPTARG}";;
         x) model_function="${OPTARG}";;
+	p) subproject="${OPTARG}";;
         *) printf "Error ${pprog}: unimplemented option.\n\n";  usage 1>&2; exit 1;;
     esac
 done
@@ -188,7 +193,11 @@ while [[ "${finished}" = false ]] ; do
     n_model_runs=$(( ${n_model_runs} + ${nlines} - ${skip} ))      # number of model runs
     echo 'number model runs: '${n_model_runs}
 
-    python "${isdir}"/codes/${model_function} -i "${parafile_M}" -s ${skip} -o model_output.pkl
+    if [[ "${subproject}" = '' ]] ; then
+	python "${isdir}"/codes/${model_function} -i "${parafile_M}" -s ${skip} -o model_output.pkl
+    else
+	python "${isdir}"/codes/${model_function} -i "${parafile_M}" -s ${skip} -o model_output.pkl -p ${subproject}
+    fi
 
     echo '# ---------------------------------------------------------------------------------'
     echo '# ('${iterations_counter}'.3) Calculate Elementary Effects                         '
@@ -273,8 +282,8 @@ while [[ "${finished}" = false ]] ; do
 
     cd ..
 
-	echo "New parameters detected =  ${new_parameters_detected}"
-	echo "n informative after = ${n_informative}"
+    echo "New parameters detected =  ${new_parameters_detected}"
+    echo "n informative after = ${n_informative}"
 
 done # Loop over iterations as long as ${finished} is not true
 
@@ -297,5 +306,14 @@ echo "      Number of iterations             :: "${iterations_counter}
 echo "      EEE info file written to "${indir}"eee_info.dat"
 echo " "
 echo " "
+
+if [[ "${subproject}" != '' ]] ; then
+    mkdir ${subproject}
+    mv iter_*            ${subproject}/.
+    mv eee_info.dat      ${subproject}/.
+    mv ${maskfile}.final ${subproject}/.
+fi
+
+cd ${isdir}
 
 exit 0

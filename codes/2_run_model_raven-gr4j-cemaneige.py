@@ -156,7 +156,7 @@ def model_function(paras, run_id=None):
     # create a run folder
     # ---------------
     tmp_folder = "/tmp/eee-analysis/"+str(run_id) # "/tmp/juletest" #  TODO a generic folder name in /tmp
-    raven_exe_name   = os.path.abspath(dir_path+"/../"+"examples/raven-gr4j-cemaneige/model/Raven.exe")
+    raven_exe_name   = os.path.abspath(dir_path+"/../"+"examples/raven-gr4j-cemaneige/model/RavenExecutableMacOS_v3.6n.exe") #Raven.exe")
     raven_obs_folder = os.path.abspath(dir_path+"/../"+"examples/raven-gr4j-cemaneige/model/data_obs")
 
     if os.path.exists(tmp_folder):
@@ -219,7 +219,7 @@ def model_function(paras, run_id=None):
     lines = ff.readlines()
     ff.close()
 
-    nse = float(lines[-1].strip().split(',')[2])
+    nse = float(lines[-2].strip().split(',')[2])
     print("NSE:            ",nse)
     model['nse'] = nse
     print("")
@@ -232,7 +232,7 @@ def model_function(paras, run_id=None):
     lines = ff.readlines()
     ff.close()
 
-    kge = float(lines[-1].strip().split(',')[4])
+    kge = float(lines[-2].strip().split(',')[4])
     print("KGE:            ",kge)
     model['kge'] = kge
     print("")
@@ -249,11 +249,11 @@ def model_function(paras, run_id=None):
     print("shape Q:        ",np.shape(model['Q']))
     print("")
 
-    # ---------------
-    # cleanup
-    # ---------------
-    if os.path.exists(tmp_folder):
-        shutil.rmtree(tmp_folder)
+    # # ---------------
+    # # cleanup
+    # # ---------------
+    # if os.path.exists(tmp_folder):
+    #     shutil.rmtree(tmp_folder)
 
     return model
 

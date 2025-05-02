@@ -3,7 +3,13 @@
 
 examples/*/iter_*
 examples/*/eee_info.dat
+examples/*/eee_results.dat
 examples/*/parameters.dat.final
+examples/*/parameter_sets_*.dat
+examples/*/model_output.pkl
+examples/*/model/*
+
+examples/bc-hydro/20250404*
 
 
 

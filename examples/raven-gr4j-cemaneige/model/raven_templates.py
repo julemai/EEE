@@ -50,7 +50,6 @@ RVI = """
 #:RunName              run1
 :StartDate             1989-01-01 00:00:00 # 1954-01-01 00:00:00
 :EndDate               2010-12-31 00:00:00
-:EvaluationTime        1991-01-01 00:00:00
 # :Duration            20819
 :TimeStep              1.0
 :Method                ORDERED_SERIES
@@ -58,11 +57,14 @@ RVI = """
 :SoilModel             SOIL_MULTILAYER  4
 :Routing               ROUTE_NONE
 :CatchmentRoute        ROUTE_DUMP
-:Evaporation           PET_DATA
-:RainSnowFraction      RAINSNOW_DINGMAN
+:Evaporation           PET_OUDIN
+:RainSnowFraction      RAINSNOW_HBV
 :PotentialMeltMethod   POTMELT_DEGREE_DAY
 :OroTempCorrect        OROCORR_SIMPLELAPSE
 :OroPrecipCorrect      OROCORR_SIMPLELAPSE
+
+#:EvaluationTime        1991-01-01 00:00:00
+:EvaluationPeriod Period_01 1991-01-01 2010-12-31
 
 #------------------------------------------------------------------------
 # Soil Layer Alias Definitions
@@ -119,7 +121,9 @@ RVP = """
 
 
 # -Global snow parameters-------------------------------------
-:RainSnowTransition {par[x08]} {par[x09]}             # 0.0 1.0 :: base temp, range around base temp where rain<-->snow, [-3,3], [0.5,4]
+# :RainSnowTransition {par[x08]} {par[x09]}             # 0.0 1.0 :: base temp, range around base temp where rain<-->snow, [-3,3], [0.5,4]
+:GlobalParameter RAINSNOW_TEMP {par[x08]}
+:GlobalParameter RAINSNOW_DELTA {par[x09]}
 :AirSnowCoeff       {dpar[par_1_minus_x06]}  	      # [1/d] = 1.0 - CEMANEIGE_X2 = 1.0 - x6
 :AvgAnnualSnow      {par[x05]}          	          # [mm]  =       CEMANEIGE_X1 =       x5
 
@@ -210,7 +214,8 @@ RVT = """
   :Latitude    54.4848
   :Longitude -123.3659
   :Elevation  843.0
-  :RedirectToFile data_obs/Salmon-River-Near-Prince-George_meteo_daily.rvt
+  #:RedirectToFile data_obs/Salmon-River-Near-Prince-George_meteo_daily.rvt
+  :RedirectToFile data_obs/08KC001_agg_lp_daily_local_RDRS_v2.1_A.rvt
 :EndGauge
 
 # observed streamflow

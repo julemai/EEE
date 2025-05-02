@@ -458,7 +458,7 @@ def Optimized_Groups(NumFact, LB, UB, N=500, p=4, r=10, GroupMat=np.array([]), D
     Dist_Diff = Dist_Diff[:,iiind] #moet 2D matrix zijn... wis rijen ipv hou bij
 
     # Select the optimal set of trajectories
-    Traj_Vec = np.zeros((New_N,r), dtype=np.int)
+    Traj_Vec = np.zeros((New_N,r), dtype=int)
     OptDist  = np.zeros((New_N,r))
     for m in range(New_N):                # each row in Traj_Vec
         Traj_Vec[m,0]  = m
@@ -699,7 +699,7 @@ def Morris_Measure_Groups(NumFact, Sample, OutFact, Output, p=4, Group=[], Diagn
             # Read the line of changing factors
             Single_Sample    = Sample[i*sizeb:(i+1)*sizeb,:]
             Single_OutValues = OutValues[i*sizeb:(i+1)*sizeb]
-            Single_Facts     = np.array(OutFact[i*sizeb:(i+1)*sizeb], dtype=np.int) # gives factor in change (or group)
+            Single_Facts     = np.array(OutFact[i*sizeb:(i+1)*sizeb], dtype=int) # gives factor in change (or group)
 
             A = (Single_Sample[1:sizeb,:]-Single_Sample[:sizea,:]).transpose()
             Delta=A[np.where(A)] # AAN TE PASSEN?
@@ -731,12 +731,12 @@ def Morris_Measure_Groups(NumFact, Sample, OutFact, Output, p=4, Group=[], Diagn
             for j in range(NumFact):
                 SAm = SAmeas[j,:]
                 SAm = SAm[~np.isnan(SAm)]
-                rr  = np.float(SAm.size)
+                rr  = float(SAm.size)
                 AbsMu[j] = np.sum(np.abs(SAm))/rr
                 if NumGroups == 0:
                     Mu[j] = SAm.mean()
                     if SAm.size > 1:
-                        Stdev[j] = np.std(SAm, dtype=np.float64, ddof=1) #ddof: /N-1 instead of /N
+                        Stdev[j] = np.std(SAm, dtype=float64, ddof=1) #ddof: /N-1 instead of /N
                     else:
                         Stdev[j] = 0.
         else:
@@ -744,7 +744,7 @@ def Morris_Measure_Groups(NumFact, Sample, OutFact, Output, p=4, Group=[], Diagn
             if NumGroups == 0:
                 Mu = SAmeas.mean(axis=1)
                 if SAmeas.shape[1] > 1:
-                    Stdev = np.std(SAmeas, dtype=np.float64, ddof=1, axis=1) #ddof: /N-1 instead of /N
+                    Stdev = np.std(SAmeas, dtype=float64, ddof=1, axis=1) #ddof: /N-1 instead of /N
                 else:
                     Stdev = np.zeros(SAmeas.shape[0])
             else:

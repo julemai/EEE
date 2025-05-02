@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from __future__ import division, absolute_import, print_function
+from __future__ import print_function
 import numpy as np
 
 def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=False, joinall=False, sep=' '):
@@ -69,38 +69,38 @@ def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=F
         >>> print(autostring(np.array([3, 11]), 3))
         ['  3' ' 11']
 
-        >>> print(autostring(np.zeros((2,2), dtype=np.float), 1))
+        >>> print(autostring(np.zeros((2,2), dtype=float), 1))
         [['0.0' '0.0']
          ['0.0' '0.0']]
 
         >>> np.set_printoptions(threshold=10)
-        >>> print(autostring(np.zeros((2,10), dtype=np.float)[0:2,0:2], 1))
-        [['0.0' '0.0']
-         ['0.0' '0.0']]
+        >>> print(autostring(np.zeros((2,10), dtype=float), 1))
+        [['0.0' '0.0' '0.0' ..., '0.0' '0.0' '0.0']
+         ['0.0' '0.0' '0.0' ..., '0.0' '0.0' '0.0']]
 
-        >>> print(autostring(np.zeros((2,10), dtype=np.float), 1, set_printoptions=True))
+        >>> print(autostring(np.zeros((2,10), dtype=float), 1, set_printoptions=True))
         [['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']
          ['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']]
 
-        >>> print(autostring(np.zeros((2,10), dtype=np.float), 1, pp=True))
+        >>> print(autostring(np.zeros((2,10), dtype=float), 1, pp=True))
         [['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']
          ['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']]
 
-        >>> print(autostring(np.zeros((2,10), dtype=np.float), 1, set_printoptions=False, pp=True))
+        >>> print(autostring(np.zeros((2,10), dtype=float), 1, set_printoptions=False, pp=True))
         [['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']
          ['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']]
 
         >>> print(autostring(np.array([3.5967, 3.5964]), 3, join=True))
         3.597 3.596
 
-        >>> print(autostring(np.zeros((2,10), dtype=np.float), 1, join=True, sep=';'))
+        >>> print(autostring(np.zeros((2,10), dtype=float), 1, join=True, sep=';'))
         ['0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0'
          '0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0']
 
-        >>> print(autostring(np.reshape(np.arange(20,dtype=np.float),(2,10)), 1, joinall=True, sep=';'))
+        >>> print(autostring(np.reshape(np.arange(20,dtype=float),(2,10)), 1, joinall=True, sep=';'))
          0.0; 1.0; 2.0; 3.0; 4.0; 5.0; 6.0; 7.0; 8.0; 9.0;10.0;11.0;12.0;13.0;14.0;15.0;16.0;17.0;18.0;19.0
 
-        >>> print(autostring(np.reshape(np.arange(20,dtype=np.float),(2,10)), 1, joinall=True, sep=';'))
+        >>> print(autostring(np.reshape(np.arange(20,dtype=float),(2,10)), 1, joinall=True, sep=';'))
          0.0; 1.0; 2.0; 3.0; 4.0; 5.0; 6.0; 7.0; 8.0; 9.0;10.0;11.0;12.0;13.0;14.0;15.0;16.0;17.0;18.0;19.0
 
         >>> print(autostring(np.array([3, 11, np.inf])))
@@ -118,27 +118,23 @@ def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=F
 
         License
         -------
-        This file is part of the JAMS Python package, distributed under the MIT License.
+        This file is part of the JAMS Python package.
 
-        Copyright (c) 2011-2014 Matthias Cuntz - mc (at) macu (dot) de
+        The JAMS Python package is free software: you can redistribute it and/or modify
+        it under the terms of the GNU Lesser General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
 
-        Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the "Software"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:
+        The JAMS Python package is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+        GNU Lesser General Public License for more details.
 
-        The above copyright notice and this permission notice shall be included in all
-        copies or substantial portions of the Software.
+        You should have received a copy of the GNU Lesser General Public License
+        along with the JAMS Python package (cf. gpl.txt and lgpl.txt).
+        If not, see <http://www.gnu.org/licenses/>.
 
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-        SOFTWARE.
+        Copyright 2011-2013 Matthias Cuntz
 
 
         History
@@ -164,7 +160,7 @@ def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=F
             typ = num.dtype
         except AttributeError:
             if (type(num) == float):
-                typ = np.float64
+                typ = float
             elif (type(num) == int):
                 typ = np.int32
             else:
@@ -172,14 +168,14 @@ def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=F
     else:
         typ = num.dtype
     try:
-        lfloat = np.float128    # Mac/*nix
+        lfloat = float    # Mac/*nix
     except AttributeError:
         try:
-            lfloat = np.float96 # Windows
+            lfloat = float # Windows
         except AttributeError:
-            lfloat = np.float64
+            lfloat = float
     if np.__version__ >= "1.6":
-        if (typ in [np.float16, np.float32, np.float64, lfloat]):
+        if (typ in [float]):
             isfloat = True
         elif (typ in [np.int8, np.int16, np.int32, np.int64, np.uint8, np.uint16, np.uint32, np.uint64]):
             isfloat = False
@@ -187,7 +183,7 @@ def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=F
             print("AUTOSTRING WARNING: autostring cannot work with input type: return original array.")
             return num
     else:
-        if (typ in [np.float32, np.float64, lfloat]):
+        if (typ in [float]):
             isfloat = True
         elif (typ in [np.int8, np.int16, np.int32, np.int64, np.uint8, np.uint16, np.uint32, np.uint64]):
             isfloat = False
@@ -248,7 +244,7 @@ def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=F
             # be one digit longer as the input prefix digits: e.g. 99.99 => 100.0
             val               = np.around(abs_num*(10.**prec))/(10.**prec)
             nprefixval        = np.int_(np.log10(val))+1
-            nprefix           = np.amax(np.array([nprefix,nprefixval], dtype=np.int))
+            nprefix           = np.amax(np.array([nprefix,nprefixval], dtype=int))
             num_prefix_chars  = nprefix
             num_sci_not_chars = 0
             format_type       = 'f'
@@ -291,7 +287,7 @@ def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=F
     if (isarr == 0):
         out = format_string.format(num)
         # Special treatment of -0.0
-        if np.float(out) == 0:
+        if float(out) == 0:
             out = format_string.format(0)
     else:
         fnum = num.flatten()
@@ -308,7 +304,7 @@ def autostring(num, prec=0, zero=False, set_printoptions=False, pp=False, join=F
                 out[i] = sformat_string.format('--')
             else:
                 out[i] = format_string.format(fnum[i])
-                if np.float(out[i]) == 0:
+                if float(out[i]) == 0:
                     out[i] = format_string.format(0)
         out = np.reshape(out, num.shape)
         if (set_printoptions | pp):
@@ -373,35 +369,35 @@ def astr(num, prec=0, zero=False, set_printoptions=False, pp=True, join=False, j
         >>> print(astr(np.array([3, 11]), 3))
         ['  3' ' 11']
 
-        >>> print(astr(np.zeros((2,2), dtype=np.float), 1))
+        >>> print(astr(np.zeros((2,2), dtype=float), 1))
         [['0.0' '0.0']
          ['0.0' '0.0']]
 
         >>> np.set_printoptions(threshold=10)
-        >>> print(astr(np.zeros((2,10), dtype=np.float), 1))
+        >>> print(astr(np.zeros((2,10), dtype=float), 1))
         [['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']
          ['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']]
 
-        >>> print(astr(np.zeros((2,10), dtype=np.float), 1, set_printoptions=True))
+        >>> print(astr(np.zeros((2,10), dtype=float), 1, set_printoptions=True))
         [['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']
          ['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']]
 
-        >>> print(astr(np.zeros((2,10), dtype=np.float), 1, pp=True))
+        >>> print(astr(np.zeros((2,10), dtype=float), 1, pp=True))
         [['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']
          ['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']]
 
-        >>> print(astr(np.zeros((2,10), dtype=np.float), 1, set_printoptions=False, pp=True))
+        >>> print(astr(np.zeros((2,10), dtype=float), 1, set_printoptions=False, pp=True))
         [['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']
          ['0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0' '0.0']]
 
         >>> print(astr(np.array([3.5967, 3.5964]), 3, join=True))
         3.597 3.596
 
-        >>> print(astr(np.zeros((2,10), dtype=np.float), 1, join=True, sep=';'))
+        >>> print(astr(np.zeros((2,10), dtype=float), 1, join=True, sep=';'))
         ['0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0'
          '0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0;0.0']
 
-        >>> print(astr(np.reshape(np.arange(20,dtype=np.float),(2,10)), 1, joinall=True, sep=';'))
+        >>> print(astr(np.reshape(np.arange(20,dtype=float),(2,10)), 1, joinall=True, sep=';'))
          0.0; 1.0; 2.0; 3.0; 4.0; 5.0; 6.0; 7.0; 8.0; 9.0;10.0;11.0;12.0;13.0;14.0;15.0;16.0;17.0;18.0;19.0
 
         >>> print(astr(np.array([3, 11, np.inf])))

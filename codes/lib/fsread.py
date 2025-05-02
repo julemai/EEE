@@ -505,7 +505,7 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
     # if transpose:
     #     var  = var.T
     #     svar = svar.T
-    var  = np.array(var, dtype=np.float)
+    var  = np.array(var, dtype=float)
     if squeeze or reform: var  = var.squeeze()
     if transpose: var  = var.T
     if strarr:
