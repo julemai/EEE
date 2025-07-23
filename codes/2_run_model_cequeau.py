@@ -184,7 +184,7 @@ def model_function(paras, run_id=None):
                 ii_val = ii.split('=')[1].strip()
                 
                 if ii_key == 'basin_id':
-                    dict_setup['basin_id']   = np.int(ii_val)
+                    dict_setup['basin_id']   = int(ii_val)
                 if ii_key == 'start_day':
                     dict_setup['start_day']  = ii_val
                 if ii_key == 'end_day':
@@ -259,7 +259,7 @@ def model_function(paras, run_id=None):
     # lines = ff.readlines()
     # ff.close()
 
-    # nse = np.float(lines[-1].strip().split(',')[2])
+    # nse = float(lines[-1].strip().split(',')[2])
     # print("NSE:            ",nse)
     # model['nse'] = nse
     # print("")
@@ -302,9 +302,9 @@ parasets = ff.readlines()
 ff.close()
 
 if skip is None:
-    skip = np.int(parasets[0].strip().split(':')[1])
+    skip = int(parasets[0].strip().split(':')[1])
 else:
-    skip = np.int(skip)
+    skip = int(skip)
 parasets = parasets[skip:]
 
 model_output = {}

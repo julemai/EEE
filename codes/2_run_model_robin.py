@@ -255,20 +255,20 @@ def model_function(paras, run_id=None):
     ff.close()
     
     # probably a more elegant way to do this but I'm bad at python...
-    model['KGE_LAI_C31'] = np.float(lines[1].strip().split(',')[4])             # first index is row number, second index is column number
-    model['KGE_LAI_C32'] = np.float(lines[2].strip().split(',')[4])
-    model['KGE_stocking_C31'] = np.float(lines[3].strip().split(',')[4])
-    model['KGE_stocking_C32'] = np.float(lines[4].strip().split(',')[4])
-    model['KGE_W_stem_C31'] = np.float(lines[5].strip().split(',')[4])
-    model['KGE_W_stem_C32'] = np.float(lines[6].strip().split(',')[4])
-    model['KGE_basalarea_C31'] = np.float(lines[7].strip().split(',')[4])
-    model['KGE_basalarea_C32'] = np.float(lines[8].strip().split(',')[4])
-    model['KGE_volume_C31'] = np.float(lines[9].strip().split(',')[4])
-    model['KGE_volume_C32'] = np.float(lines[10].strip().split(',')[4])
-    model['KGE_W_stem_tree_C31'] = np.float(lines[11].strip().split(',')[4])
-    model['KGE_W_stem_tree_C32'] = np.float(lines[12].strip().split(',')[4])
-    model['KGE_W_Leaf_C31'] = np.float(lines[13].strip().split(',')[4])
-    model['KGE_W_Leaf_C32'] = np.float(lines[14].strip().split(',')[4])
+    model['KGE_LAI_C31'] = float(lines[1].strip().split(',')[4])             # first index is row number, second index is column number
+    model['KGE_LAI_C32'] = float(lines[2].strip().split(',')[4])
+    model['KGE_stocking_C31'] = float(lines[3].strip().split(',')[4])
+    model['KGE_stocking_C32'] = float(lines[4].strip().split(',')[4])
+    model['KGE_W_stem_C31'] = float(lines[5].strip().split(',')[4])
+    model['KGE_W_stem_C32'] = float(lines[6].strip().split(',')[4])
+    model['KGE_basalarea_C31'] = float(lines[7].strip().split(',')[4])
+    model['KGE_basalarea_C32'] = float(lines[8].strip().split(',')[4])
+    model['KGE_volume_C31'] = float(lines[9].strip().split(',')[4])
+    model['KGE_volume_C32'] = float(lines[10].strip().split(',')[4])
+    model['KGE_W_stem_tree_C31'] = float(lines[11].strip().split(',')[4])
+    model['KGE_W_stem_tree_C32'] = float(lines[12].strip().split(',')[4])
+    model['KGE_W_Leaf_C31'] = float(lines[13].strip().split(',')[4])
+    model['KGE_W_Leaf_C32'] = float(lines[14].strip().split(',')[4])
 
     print("KGE_LAI_C31:            ",model['KGE_LAI_C31'])
     print("")
@@ -339,9 +339,9 @@ parasets = ff.readlines()
 ff.close()
 
 if skip is None:
-    skip = np.int(parasets[0].strip().split(':')[1])
+    skip = int(parasets[0].strip().split(':')[1])
 else:
-    skip = np.int(skip)
+    skip = int(skip)
 parasets = parasets[skip:]
 
 model_output = {}

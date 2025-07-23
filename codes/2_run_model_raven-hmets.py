@@ -221,7 +221,7 @@ def model_function(paras, run_id=None):
     lines = ff.readlines()
     ff.close()
 
-    nse = np.float(lines[-1].strip().split(',')[2])
+    nse = float(lines[-1].strip().split(',')[2])
     print("NSE:            ",nse)
     model['nse'] = nse
     print("")
@@ -267,9 +267,9 @@ parasets = ff.readlines()
 ff.close()
 
 if skip is None:
-    skip = np.int(parasets[0].strip().split(':')[1])
+    skip = int(parasets[0].strip().split(':')[1])
 else:
-    skip = np.int(skip)
+    skip = int(skip)
 parasets = parasets[skip:]
 
 model_output = {}

@@ -105,7 +105,7 @@ def model_function(paraset):
     model = np.sin(paraset[0]) + a * np.sin(paraset[1])**2 + b * paraset[2]**4 * np.sin(paraset[0])
 
     out['out1'] = model                                            # 0D (scalar) model output
-    # out['out2'] = [ model / np.float(ii+1) for ii in range(10) ]   # mimicking a 1D model output
+    # out['out2'] = [ model / float(ii+1) for ii in range(10) ]   # mimicking a 1D model output
     # ...
     # add more model outputs if necessary
     
@@ -117,9 +117,9 @@ parasets = ff.readlines()
 ff.close()
 
 if skip is None:
-    skip = np.int(parasets[0].strip().split(':')[1])
+    skip = int(parasets[0].strip().split(':')[1])
 else:
-    skip = np.int(skip)
+    skip = int(skip)
 parasets = parasets[skip:]
 
 model_output = {}

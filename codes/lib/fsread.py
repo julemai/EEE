@@ -495,7 +495,7 @@ def fsread(infile, nc=0, cname=None, snc=0, sname=None, skip=0, cskip=0, hskip=0
     # list -> array
     if fill:
         var = [ [ fill_value if i=='' else i for i in row ] for row in var ]
-    # var  = np.array(var, dtype=np.float)
+    # var  = np.array(var, dtype=float)
     # svar = np.array(svar, dtype=np.str)
     # if fill:
     #     svar = np.where(svar=='', sfill_value, svar)
