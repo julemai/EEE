@@ -452,7 +452,7 @@ for iobj in range(nobj):
     ofile=ofile+'cutoff_'+astr(iobj+1)+'.dat'
     f = open(ofile,'w')
     print('cutoff', file=f)
-    if (type(cutoff_obj[iobj])==float) | (type(cutoff_obj[iobj])==float64):
+    if (type(cutoff_obj[iobj])==float) | (type(cutoff_obj[iobj])==np.float64):
         print(cutoff_obj[iobj], file=f)
     else:
         print(cutoff_obj[iobj][0], file=f)
