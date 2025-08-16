@@ -188,6 +188,11 @@ def model_function(paras, run_id=None):
         dict_paras['dar_x05'] = 10.0**paras[4]
         dict_paras['dar_x06'] = 10.0**paras[5]
         dict_paras['dar_x12'] = paras[11] + paras[14]
+    elif version in ['v14','v15']:
+        dict_paras['dar_x02'] = paras[0] + paras[1]
+        dict_paras['dar_x05'] = 10.0**paras[3]
+        dict_paras['dar_x06'] = 10.0**paras[4]
+        dict_paras['dar_x12'] = paras[9] + paras[12]
     else:
         raise ValueError('Version not implemented')
 
@@ -206,17 +211,43 @@ def model_function(paras, run_id=None):
     # to replace patterns: par_x01 by parameter value paras[0]
     #                      par_x02 by parameter value paras[1]
     #                      ...
-    if len(paras) > 1 and len(paras) < 100:    # i want also <9 paras to be with leading zero here (otherwise replace ">1" with ">9")
-        for ii in range(1,len(paras)+1):
-            dict_paras['par_x{:02d}'.format(ii)] = paras[ii-1]
-    elif len(paras) > 99 and len(paras) < 1000:
-        for ii in range(1,len(paras)+1):
-            dict_paras['par_x{:03d}'.format(ii)] = paras[ii-1]
-    elif len(paras) <= 9:
-        for ii in range(1,len(paras)+1):
-            dict_paras['par_x{:01d}'.format(ii)] = paras[ii-1]
+    if version in ['v5','v6']:
+        # parameters are named in order and without gaps
+        if len(paras) > 1 and len(paras) < 100:    # i want also <9 paras to be with leading zero here (otherwise replace ">1" with ">9")
+            for ii in range(1,len(paras)+1):
+                dict_paras['par_x{:02d}'.format(ii)] = paras[ii-1]
+        elif len(paras) > 99 and len(paras) < 1000:
+            for ii in range(1,len(paras)+1):
+                dict_paras['par_x{:03d}'.format(ii)] = paras[ii-1]
+        elif len(paras) <= 9:
+            for ii in range(1,len(paras)+1):
+                dict_paras['par_x{:01d}'.format(ii)] = paras[ii-1]
+        else:
+            raise ValueError("More than 999 parameters are not implemented yet!")
+    elif version in ['v14','v15']:
+        # parameters are named in order but with gaps (par_x03 and par_x10 missing)
+        dict_paras['par_x01'] = paras[0]
+        dict_paras['par_x02'] = paras[1]
+        dict_paras['par_x04'] = paras[2]
+        dict_paras['par_x05'] = paras[3]
+        dict_paras['par_x06'] = paras[4]
+        dict_paras['par_x07'] = paras[5]
+        dict_paras['par_x08'] = paras[6]
+        dict_paras['par_x09'] = paras[7]
+        dict_paras['par_x11'] = paras[8]
+        dict_paras['par_x12'] = paras[9]
+        dict_paras['par_x13'] = paras[10]
+        dict_paras['par_x14'] = paras[11]
+        dict_paras['par_x15'] = paras[12]
+        dict_paras['par_x16'] = paras[13]
+        dict_paras['par_x17'] = paras[14]
+        dict_paras['par_x18'] = paras[15]
+        dict_paras['par_x19'] = paras[16]
+        dict_paras['par_x20'] = paras[17]
+        dict_paras['par_x21'] = paras[18]
+        
     else:
-        raise ValueError("More than 999 parameters are not implemented yet!")
+        raise ValueError('Version not implemented')
 
     #print('dict_paras = ',dict_paras)
 

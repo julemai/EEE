@@ -1,12 +1,31 @@
+----------------------------------------------
 What to do when starting a new version
-
+----------------------------------------------
 - update parameters.dat
 - update derived parameter section in "2_run_model_raven-bc-hydro.py"
 - check if 2 years warm-up are ok
 
-
-Running all basins
+----------------------------------------------
+Running all basins (daily)
+----------------------------------------------
 
 basins="Ash Alouette Arrow Brackendale_WSC Bridge Browns_River_WSC Cayoosh Cheakamus Clowhom Comox Coquitlam Duncan Jordan Kootenay_Lake La_Joie Libby Mica Revelstoke Salmo Seton Site_C Slocan Stave Strathcona Sugar Tsolum_River_WSC Wahleach Whatshan Williston"
 
-for bb in ${basins} ; do ./__run_eee.sh -s Q -x 2_run_model_raven-bc-hydro.py -m parameters.dat -p ${bb} examples/bc-hydro/ ; done
+for bb in ${basins} ; do ./__run_eee.sh -s Q -x 2_run_model_raven-bc-hydro.py -m parameters.dat -p "20250404-v5-${bb}" examples/bc-hydro/ ; done
+for bb in ${basins} ; do ./__run_eee.sh -s Q -x 2_run_model_raven-bc-hydro.py -m parameters.dat -p "20250404-v6-${bb}" examples/bc-hydro/ ; done
+for bb in ${basins} ; do ./__run_eee.sh -s Q -x 2_run_model_raven-bc-hydro.py -m parameters.dat -p "20250731d-v14-${bb}" examples/bc-hydro/ ; done
+
+OR BETTER RUN:
+bc-hydro-raven/src/run_all_stations_eee.sh
+
+
+----------------------------------------------
+Running all basins (hourly)
+----------------------------------------------
+
+basins="Alouette Ash Brackendale_WSC Browns_River_WSC Cheakamus Clowhom Comox Coquitlam Jordan Site_C Stave Strathcona Tsolum_River_WSC Wahleach"
+
+for bb in ${basins} ; do ./__run_eee.sh -s Q -x 2_run_model_raven-bc-hydro.py -m parameters.dat -p "20250731h-v15-${bb}" examples/bc-hydro/ ; done
+
+OR BETTER RUN:
+bc-hydro-raven/src/run_all_stations_eee.sh
